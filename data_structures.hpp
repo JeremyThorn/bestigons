@@ -1,20 +1,25 @@
 #pragma once
 
 enum class Liquid_type {WATER, ACID, LAVA};
-enum class Damage_type {CUT, IMP, CRUSH, PI, FIRE, ACID, ICE};
+enum class Damage_type {CUT, IMP, CRUSH, PI, HEAT, ACID, COLD, WATER, VOID, LIGHT};
 
 class Gamemaster;
 class Cell;
-class Obstacle{
-  double height = 0;
-  double damage = 0;
-  Liquid_type liquid_type = Liquid_type::WATER;
-  double movement_cost = 0;
+
+struct Obstacle{
+  double height;
+  double damage;
+  double health;
+  double* damage_resist;
+  Damage_type damage_type;
+  double movement_cost;
 };
+
 struct Liquid {
-  double height = 0;
-  double damage = 0;
+  double height;
+  double damage;
+  Damage_type damage_type = Damage_type::WATER;
   Liquid_type liquid_type = Liquid_type::WATER;
-  double movement_cost = 0;
+  double movement_cost;
 };
 struct Item;
