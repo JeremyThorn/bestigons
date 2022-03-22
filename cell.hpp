@@ -11,9 +11,12 @@ public:
   void get_height(double* height);
   void set_height(double height);
 
-  
+  void add_item(Item* item);
+  void remove_item(Item* item);
+
+  void 
 private:
-  std::vector<Item> inventory;
+  std::vector<Item*> inventory;
   int movement_cost = 0;
   double damage = 0.0;
   double height = 0.0;

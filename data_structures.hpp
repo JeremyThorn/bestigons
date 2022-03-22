@@ -1,6 +1,7 @@
 #pragma once
 
 enum class Liquid_type {WATER, ACID, LAVA};
+enum class Damage_type {CUT, IMP, CRUSH, PI, FIRE, ACID, ICE};
 
 class Gamemaster;
 class Cell;
