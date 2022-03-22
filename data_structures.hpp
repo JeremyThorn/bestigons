@@ -2,6 +2,7 @@
 
 enum class Liquid_type {WATER, ACID, LAVA};
 enum class Damage_type {CUT, IMP, CRUSH, PI, HEAT, ACID, COLD, WATER, VOID, LIGHT};
+enum class Floor_type {MUD, SAND, GRASS, STONE, BRIMSTONE};
 
 class Gamemaster;
 class Cell;
@@ -22,4 +23,5 @@ struct Liquid {
   Liquid_type liquid_type = Liquid_type::WATER;
   double movement_cost;
 };
+
 struct Item;
