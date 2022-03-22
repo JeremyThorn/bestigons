@@ -14,7 +14,8 @@ public:
   void add_item(Item* item);
   void remove_item(Item* item);
 
-  void 
+  void set_obstacle(Obstacle obstacle);
+  void set_liquid(Liquid liquid);
 private:
   std::vector<Item*> inventory;
   int movement_cost = 0;

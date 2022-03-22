@@ -11,7 +11,7 @@ struct Obstacle{
   double damage;
   double health;
   double* damage_resist;
-  Damage_type damage_type;
+  Damage_type damage_type = Damage_type::CUT;
   double movement_cost;
 };
 
