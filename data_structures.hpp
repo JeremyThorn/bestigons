@@ -7,6 +7,14 @@ enum class Floor_type {MUD, SAND, GRASS, STONE, BRIMSTONE};
 class Gamemaster;
 class Cell;
 
+SDL_Point operator+( const SDL_Point& v1, const SDL_Point& v2 )
+{
+    SDL_Point ans;
+    ans.x = v1.x + v2.x;
+    ans.y = v1.y + v2.y;
+    return ans;
+}
+
 struct Obstacle{
   double height;
   double damage;
