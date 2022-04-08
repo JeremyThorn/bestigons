@@ -7,12 +7,32 @@ enum class Floor_type {MUD, SAND, GRASS, STONE, BRIMSTONE};
 class Gamemaster;
 class Cell;
 
-SDL_Point operator+( const SDL_Point& v1, const SDL_Point& v2 )
+struct Vec2{
+  double x;
+  double y;
+};
+
+struct Matrix22{
+  double a;
+  double b;
+  double c;
+  double d;
+};
+
+Matrix22 operator*(const Matrix22& m, const Vec2& v)
 {
-    SDL_Point ans;
-    ans.x = v1.x + v2.x;
-    ans.y = v1.y + v2.y;
-    return ans;
+  Vec2 ans;
+  ans.x = m.a*v.x + m.b*v.y;
+  ans.y = m.c*v.x + m*d*v.y;
+  return ans;
+}
+
+Vec2 operator+( const Vec2& v1, const Vec2& v2 )
+{
+  Vec2 ans;
+  ans.x = v1.x + v2.x;
+  ans.y = v1.y + v2.y;
+  return ans;
 }
 
 struct Obstacle{
