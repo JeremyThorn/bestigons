@@ -18,6 +18,7 @@ public:
   void set_liquid(Liquid liquid);
 private:
   std::vector<Item*> inventory;
+  std::vector<double> coord;
   int movement_cost = 0;
   double damage = 0.0;
   double height = 0.0;
