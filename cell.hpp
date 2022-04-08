@@ -27,5 +27,5 @@ private:
   Obstacle obstacle;
   Liquid liquid;
   SDL_Renderer* renderer;
-  SDL_Texture* hex_texture;
+  SDL_Texture* floor_texture;
 };
