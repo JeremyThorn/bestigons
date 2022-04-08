@@ -28,4 +28,5 @@ private:
   Liquid liquid;
   SDL_Renderer* renderer;
   SDL_Texture* floor_texture;
+  Floor_type Floor_type = Floor_type::GRASS
 };
