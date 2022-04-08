@@ -1,5 +1,5 @@
 #include <stdio.h>
 
-void hex_to_screen(std::vector hex){
+void hex_to_screen(SDL_Point hex){
 
 }
