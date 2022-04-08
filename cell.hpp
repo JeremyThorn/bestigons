@@ -20,7 +20,7 @@ public:
   void draw_self(SDL_Texture* texture);
 private:
   std::vector<Item*> inventory;
-  std::vector<double> coord;
+  SDL_Point coord;
   int movement_cost = 0;
   double damage = 0.0;
   double height = 0.0;
