@@ -16,6 +16,8 @@ public:
 
   void set_obstacle(Obstacle obstacle);
   void set_liquid(Liquid liquid);
+
+  void draw_self(SDL_Texture* texture);
 private:
   std::vector<Item*> inventory;
   std::vector<double> coord;
@@ -24,4 +26,6 @@ private:
   double height = 0.0;
   Obstacle obstacle;
   Liquid liquid;
+  SDL_Renderer* renderer;
+  SDL_Texture* hex_texture;
 };
