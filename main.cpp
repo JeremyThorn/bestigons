@@ -12,6 +12,7 @@
 #include "matrix_stuff.hpp"
 #include "data_structures.hpp"
 #include "cell.hpp"
+#include "gamemaster.hpp"
 
 
 
@@ -49,6 +50,12 @@ int main(int argc, char *argv[]) {
 
   //TEST AREA STARTS HERE
 
+  Gamemaster_data gd;
+  gd.renderer=renderer;
+  gd.WIDTH = WIDTH;
+  gd.HEIGHT = HEIGHT;
+  Gamemaster* gm = new Gamemaster(&gd);
+
   SDL_Texture* grass_texture = IMG_LoadTexture(renderer, "tile.png");
   if(grass_texture==NULL){
     printf("Dwarfboi texture failed to load");
@@ -56,8 +63,6 @@ int main(int argc, char *argv[]) {
   }
 
   int areas = 30;
-
-  Cell** cells = (Cell**)calloc(sizeof(Cell*),areas*areas);
 
   for(int i = 0;i < areas; i++){
     for(int j = 0;j < areas; j++){
@@ -67,22 +72,26 @@ int main(int argc, char *argv[]) {
       test_cell_data.movement_cost = 0;
       test_cell_data.damage = 0;
       test_cell_data.height = 0;
+      if( i == 15 && j == 15){
+        test_cell_data.height = 20;
+      }
+      if( i ==17 && j == 17){
+        test_cell_data.height = -20;
+      }
       test_cell_data.renderer = renderer;
       test_cell_data.floor_texture = grass_texture;
 
-      cells[i*areas+j] = new Cell(&test_cell_data);
+      gm->add_cell(new Cell(&test_cell_data));
     }
   }
+  gm->sort_cells();
 
 
   //TEST AREA ENDS HERE
 
 
   while(1) {
-
-    for(int i = 0; i<areas*areas;i++){
-      cells[i]->draw_self(texture,50,WIDTH/2,HEIGHT/2);
-    }
+    gm->draw_self(texture);
 
     SDL_RenderPresent(renderer);
 

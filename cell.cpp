@@ -12,6 +12,7 @@
 #include "matrix_stuff.hpp"
 #include "data_structures.hpp"
 #include "cell.hpp"
+#include "gamemaster.hpp"
 
 void Cell::draw_self(SDL_Texture* texture, double rad, double XOFF, double YOFF){
   Matrix22 transform;
@@ -48,4 +49,20 @@ Cell::Cell(Cell_data* cell_data){
   floor_texture = cell_data->floor_texture;
   floor_type = cell_data->floor_type;
   damage_type = cell_data->damage_type;
+}
+
+
+void Cell::get_coords(Vec2* coords){
+  coords->x = coord.x;
+  coords->y = coord.y;
+}
+
+
+
+
+bool comp_cell(Cell* c1, Cell* c2){
+  Vec2 v1,v2;
+  c1->get_coords(&v1);
+  c2->get_coords(&v2);
+  return v1 < v2;
 }

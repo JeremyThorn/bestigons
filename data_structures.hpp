@@ -37,4 +37,10 @@ struct Cell_data {
   Damage_type damage_type;
 };
 
+struct Gamemaster_data {
+  SDL_Renderer* renderer;
+  int WIDTH;
+  int HEIGHT;
+};
+
 struct Item;

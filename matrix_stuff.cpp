@@ -12,6 +12,7 @@
 #include "matrix_stuff.hpp"
 #include "data_structures.hpp"
 #include "cell.hpp"
+#include "gamemaster.hpp"
 
 void invert(Matrix22 m, Matrix22* ans){
   double det = 1.0/(m.a*m.d - m.b*m.c);
@@ -51,6 +52,13 @@ Vec2 operator+( const double& d, const Vec2& v )
   ans.x = v.x + d;
   ans.y = v.y + d;
   return ans;
+}
+
+
+
+bool operator<( const Vec2& v1, const Vec2& v2 )
+{
+  return (-v1.x+v1.y) < (v2.y-v2.x);
 }
 
 std::ostream& operator<<(std::ostream& os, const Vec2& v)

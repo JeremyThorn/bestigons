@@ -19,6 +19,8 @@ public:
   void set_liquid(Liquid liquid);
 
   void draw_self(SDL_Texture* texture, double rad, double XOFF, double YOFF);
+
+  void get_coords(Vec2* coord);
 private:
   std::vector<Item*> inventory;
   Vec2 coord;
@@ -32,3 +34,6 @@ private:
   Floor_type floor_type = Floor_type::GRASS;
   Damage_type damage_type = Damage_type::CUT;
 };
+
+
+bool comp_cell(Cell* c1, Cell* c2);
