@@ -24,4 +24,17 @@ struct Liquid {
   double movement_cost;
 };
 
+struct Cell_data {
+  Vec2 coord;
+  int movement_cost;
+  double damage;
+  double height;
+  Obstacle obstacle;
+  Liquid liquid;
+  SDL_Renderer* renderer;
+  SDL_Texture* floor_texture;
+  Floor_type floor_type;
+  Damage_type damage_type;
+};
+
 struct Item;
