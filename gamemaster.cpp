@@ -24,6 +24,7 @@ Gamemaster::Gamemaster(Gamemaster_data* gamemaster_data){
   xoff = WIDTH/2;
   yoff = HEIGHT/2;
   scale = 50;
+  transform = gamemaster_data->transform;
 }
 
 void Gamemaster::add_cell(Cell* cell){
@@ -39,5 +40,22 @@ void Gamemaster::draw_self(SDL_Texture* texture){
 
 void Gamemaster::sort_cells(){
   std::sort(cells.begin(),cells.end(),comp_cell);
+
+}
+
+void Gamemaster::get_transform(Matrix22* out_transform){
+  out_transform->a = transform.a;
+  out_transform->b = transform.b;
+  out_transform->c = transform.c;
+  out_transform->d = transform.d;
+}
+
+void Gamemaster::set_transform(){
+  for(Cell* cell : cells){
+    cell->set_transform(transform);
+  }
+}
+
+void Gamemaster::get_clicked(Vec2 mousepos){
 
 }

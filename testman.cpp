@@ -1,10 +1,16 @@
 #include <stdio.h>
 #include <iostream>
 #include <math.h>
+#include <SDL2/SDL.h>
 #include "data_structures.hpp"
 #include "matrix_stuff.hpp"
 
 const double PI = 3.14159265;
+
+int tester(){
+
+  return 0;
+}
 
 int main(){
   double s = 0.8;

@@ -41,6 +41,7 @@ struct Gamemaster_data {
   SDL_Renderer* renderer;
   int WIDTH;
   int HEIGHT;
+  Matrix22 transform;
 };
 
 struct Item;

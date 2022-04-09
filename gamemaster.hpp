@@ -6,6 +6,9 @@ public:
   void draw_self(SDL_Texture* texture);
   void add_cell(Cell* cell);
   void sort_cells();
+  void get_clicked(Vec2 mousepos);
+  void get_transform(Matrix22* out_transform);
+  void set_transform();
 
 private:
   std::vector<Cell*> cells;
@@ -15,4 +18,5 @@ private:
   int WIDTH;
   int HEIGHT;
   double scale;
+  Matrix22 transform = {0, 0, 0, 0};
 };

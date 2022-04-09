@@ -54,6 +54,7 @@ int main(int argc, char *argv[]) {
   gd.renderer=renderer;
   gd.WIDTH = WIDTH;
   gd.HEIGHT = HEIGHT;
+  gd.transform = {cos(M_PI/4), sin(M_PI/4), -sin(M_PI/4)/sqrt(3), cos(M_PI/4)/sqrt(3)};
   Gamemaster* gm = new Gamemaster(&gd);
 
   SDL_Texture* grass_texture = IMG_LoadTexture(renderer, "tile_l.png");
@@ -97,6 +98,7 @@ int main(int argc, char *argv[]) {
     }
   }
   gm->sort_cells();
+  gm->set_transform();
 
 
   //TEST AREA ENDS HERE

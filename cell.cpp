@@ -15,11 +15,12 @@
 #include "gamemaster.hpp"
 
 void Cell::draw_self(SDL_Texture* texture, double rad, double XOFF, double YOFF){
-  Matrix22 transform;
-  transform.a = cos(M_PI/4);
-  transform.b = sin(M_PI/4);
-  transform.c = -sin(M_PI/4)/sqrt(3);
-  transform.d = cos(M_PI/4)/sqrt(3);
+  //Matrix22 transform;
+  //transform =
+  //transform.a = cos(M_PI/4);
+  //transform.b = sin(M_PI/4);
+  //transform.c = -sin(M_PI/4)/sqrt(3);
+  //transform.d = cos(M_PI/4)/sqrt(3);
 
   //THIS IS ACTUALLY SOO GOOD
   Vec2 new_coord = transform*((2.95*rad*sqrt(1.0/2.0))*(coord));
@@ -55,6 +56,13 @@ Cell::Cell(Cell_data* cell_data){
 void Cell::get_coords(Vec2* coords){
   coords->x = coord.x;
   coords->y = coord.y;
+}
+
+void Cell::set_transform(Matrix22 in_transform){
+  transform.a = in_transform.a;
+  transform.b = in_transform.b;
+  transform.c = in_transform.c;
+  transform.d = in_transform.d;
 }
 
 
