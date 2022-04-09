@@ -18,6 +18,10 @@ Vec2 operator*(const Matrix22& m, const Vec2& v);
 
 Vec2 operator+( const Vec2& v1, const Vec2& v2 );
 
+Vec2 operator*(const double& d, const Vec2& v);
+
+Vec2 operator+( const double& d, const Vec2& v );
+
 std::ostream& operator<<(std::ostream& os, const Vec2& v);
 
 std::ostream& operator<<(std::ostream& os, const Matrix22& m);

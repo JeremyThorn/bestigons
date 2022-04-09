@@ -1,8 +1,17 @@
 #include <stdio.h>
-#include <iostream>
+#include <SDL.h>
+#include <SDL_image.h>
+#include <stdlib.h>
 #include <math.h>
-#include "data_structures.hpp"
+#include <omp.h>
+#include <string>
+#include <time.h>
+#include <iostream>
+#include <vector>
+#include <signal.h>
 #include "matrix_stuff.hpp"
+#include "data_structures.hpp"
+#include "cell.hpp"
 
 void invert(Matrix22 m, Matrix22* ans){
   double det = 1.0/(m.a*m.d - m.b*m.c);
@@ -25,6 +34,22 @@ Vec2 operator+( const Vec2& v1, const Vec2& v2 )
   Vec2 ans;
   ans.x = v1.x + v2.x;
   ans.y = v1.y + v2.y;
+  return ans;
+}
+
+Vec2 operator*(const double& d, const Vec2& v)
+{
+  Vec2 ans;
+  ans.x = d*v.x;
+  ans.y = d*v.y;
+  return ans;
+}
+
+Vec2 operator+( const double& d, const Vec2& v )
+{
+  Vec2 ans;
+  ans.x = v.x + d;
+  ans.y = v.y + d;
   return ans;
 }
 
