@@ -56,7 +56,7 @@ int main(int argc, char *argv[]) {
   gd.HEIGHT = HEIGHT;
   Gamemaster* gm = new Gamemaster(&gd);
 
-  SDL_Texture* grass_texture = IMG_LoadTexture(renderer, "tile_c.png");
+  SDL_Texture* grass_texture = IMG_LoadTexture(renderer, "tile_l.png");
   if(grass_texture==NULL){
     printf("Dwarfboi texture failed to load");
     exit(1);
@@ -77,6 +77,18 @@ int main(int argc, char *argv[]) {
       }
       if( i ==17 && j == 17){
         test_cell_data.height = -20;
+      }
+      if(i == 13 && j == 13){
+        test_cell_data.height = -40;
+      }
+      if(i+1 == 13 || i-1 == 13 || i == 13){
+        if(j+1 == 13 || j-1 == 13 || j == 13)
+          if((i-13)*(j-13)<=0 && (j != 13 || i != 13)){
+            test_cell_data.height = -20;
+          }
+      }
+      if(i == 19 && j == 19){
+        test_cell_data.height = -100;
       }
       test_cell_data.renderer = renderer;
       test_cell_data.floor_texture = grass_texture;

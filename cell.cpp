@@ -22,14 +22,14 @@ void Cell::draw_self(SDL_Texture* texture, double rad, double XOFF, double YOFF)
   transform.d = cos(M_PI/4)/sqrt(3);
 
   //THIS IS ACTUALLY SOO GOOD
-  Vec2 new_coord = transform*((2.98*rad*sqrt(1.0/2.0))*(coord));
+  Vec2 new_coord = transform*((2.95*rad*sqrt(1.0/2.0))*(coord));
 
 
   SDL_Rect hex_rect;
   hex_rect.x = new_coord.x+XOFF - rad;
-  hex_rect.y = new_coord.y+YOFF+height - rad*sqrt(3)/2;
+  hex_rect.y = new_coord.y+YOFF-height - rad*sqrt(3)/2;
   hex_rect.w = 2*rad;
-  hex_rect.h = 2*rad*sqrt(3)/2;
+  hex_rect.h = 2*rad*sqrt(3)/2*2.5;
 
   SDL_SetRenderTarget(renderer,texture);
   SDL_RenderCopy(renderer,floor_texture,NULL,&hex_rect);
