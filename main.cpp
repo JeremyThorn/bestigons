@@ -56,7 +56,7 @@ int main(int argc, char *argv[]) {
   gd.HEIGHT = HEIGHT;
   Gamemaster* gm = new Gamemaster(&gd);
 
-  SDL_Texture* grass_texture = IMG_LoadTexture(renderer, "tile.png");
+  SDL_Texture* grass_texture = IMG_LoadTexture(renderer, "tile_c.png");
   if(grass_texture==NULL){
     printf("Dwarfboi texture failed to load");
     exit(1);
