@@ -9,14 +9,6 @@
 #include <iostream>
 #include <vector>
 #include <signal.h>
-#include "matrix_stuff.hpp"
-#include "data_structures.hpp"
-#include "cell.hpp"
-
-
-
-const int WIDTH = 1400;
-const int HEIGHT = 900;
 
 int main(int argc, char *argv[]) {
   SDL_Window *window;
@@ -47,44 +39,15 @@ int main(int argc, char *argv[]) {
 
   SDL_Event event;
 
-  //TEST AREA STARTS HERE
-
-  SDL_Texture* grass_texture = IMG_LoadTexture(renderer, "tile.png");
-  if(grass_texture==NULL){
-    printf("Dwarfboi texture failed to load");
-    exit(1);
-  }
-
-  int areas = 30;
-
-  Cell** cells = (Cell**)calloc(sizeof(Cell*),areas*areas);
-
-  for(int i = 0;i < areas; i++){
-    for(int j = 0;j < areas; j++){
-      Cell_data test_cell_data;
-      test_cell_data.coord.x=(int)(i-areas/2);
-      test_cell_data.coord.y=(int)(j-areas/2);
-      test_cell_data.movement_cost = 0;
-      test_cell_data.damage = 0;
-      test_cell_data.height = 0;
-      test_cell_data.renderer = renderer;
-      test_cell_data.floor_texture = grass_texture;
-
-      cells[i*areas+j] = new Cell(&test_cell_data);
-    }
-  }
 
 
-  //TEST AREA ENDS HERE
+  Cell_data test_cell_data;
+  test_cell_data.coord =
+
+  Cell test_cell = Cell();
 
 
   while(1) {
-
-    for(int i = 0; i<areas*areas;i++){
-      cells[i]->draw_self(texture,50,WIDTH/2,HEIGHT/2);
-    }
-
-    SDL_RenderPresent(renderer);
 
 
     while(SDL_PollEvent(&event)) {

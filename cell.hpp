@@ -2,6 +2,7 @@
 
 class Cell{
 public:
+  Cell(Cell_data* cell_data);
   void set_movement_cost(int movement_cost);
   void get_movement_cost(int* movement_cost);
 
@@ -17,7 +18,7 @@ public:
   void set_obstacle(Obstacle obstacle);
   void set_liquid(Liquid liquid);
 
-  void draw_self(SDL_Texture* texture);
+  void draw_self(SDL_Texture* texture, double rad, double XOFF, double YOFF);
 private:
   std::vector<Item*> inventory;
   Vec2 coord;
@@ -28,5 +29,6 @@ private:
   Liquid liquid;
   SDL_Renderer* renderer;
   SDL_Texture* floor_texture;
-  Floor_type Floor_type = Floor_type::GRASS
+  Floor_type floor_type = Floor_type::GRASS;
+  Damage_type damage_type = Damage_type::CUT;
 };
