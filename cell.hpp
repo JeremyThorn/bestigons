@@ -22,6 +22,7 @@ public:
 
   void get_coords(Vec2* coord);
   void set_transform(Matrix22 in_transform);
+  void set_offset_n_scale(Vec2 in_offset_n_scale);
 private:
   std::vector<Item*> inventory;
   Vec2 coord;
@@ -35,6 +36,7 @@ private:
   Floor_type floor_type = Floor_type::GRASS;
   Damage_type damage_type = Damage_type::CUT;
   Matrix22 transform = {0, 0, 0, 0};
+  Vec2 offset_n_scale = {0, 0};
 };
 
 

@@ -42,6 +42,8 @@ struct Gamemaster_data {
   int WIDTH;
   int HEIGHT;
   Matrix22 transform;
+  double scale;
+  Vec2 offset_n_scale;
 };
 
 struct Item;

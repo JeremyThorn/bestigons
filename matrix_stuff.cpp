@@ -14,12 +14,14 @@
 #include "cell.hpp"
 #include "gamemaster.hpp"
 
-void invert(Matrix22 m, Matrix22* ans){
+Matrix22 invert(Matrix22 m){
+  Matrix22 ans;
   double det = 1.0/(m.a*m.d - m.b*m.c);
-  ans->a = det*m.d;
-  ans->b = det*-m.b;
-  ans->c = det*-m.c;
-  ans->d = det*m.a;
+  ans.a = det*m.d;
+  ans.b = det*-m.b;
+  ans.c = det*-m.c;
+  ans.d = det*m.a;
+  return ans;
 }
 
 Vec2 operator*(const Matrix22& m, const Vec2& v)
@@ -30,11 +32,28 @@ Vec2 operator*(const Matrix22& m, const Vec2& v)
   return ans;
 }
 
+Matrix22 operator*(const Matrix22& m, const double& d){
+  Matrix22 ans;
+  ans.a = m.a*d;
+  ans.b = m.b*d;
+  ans.c = m.c*d;
+  ans.d = m.d*d;
+  return ans;
+}
+
 Vec2 operator+( const Vec2& v1, const Vec2& v2 )
 {
   Vec2 ans;
   ans.x = v1.x + v2.x;
   ans.y = v1.y + v2.y;
+  return ans;
+}
+
+Vec2 operator-( const Vec2& v1, const Vec2& v2 )
+{
+  Vec2 ans;
+  ans.x = v1.x - v2.x;
+  ans.y = v1.y - v2.y;
   return ans;
 }
 

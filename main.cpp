@@ -54,7 +54,11 @@ int main(int argc, char *argv[]) {
   gd.renderer=renderer;
   gd.WIDTH = WIDTH;
   gd.HEIGHT = HEIGHT;
-  gd.transform = {cos(M_PI/4), sin(M_PI/4), -sin(M_PI/4)/sqrt(3), cos(M_PI/4)/sqrt(3)};
+  gd.scale = 50;
+  Matrix22 rotator = {cos(M_PI/4), sin(M_PI/4), -sin(M_PI/4)/sqrt(3), cos(M_PI/4)/sqrt(3)};
+  gd.transform = rotator*(2.95*gd.scale*sqrt(1.0/2.0));
+  gd.offset_n_scale = {gd.WIDTH/2 - gd.scale, gd.HEIGHT/2 - gd.scale*sqrt(3)/2};
+
   Gamemaster* gm = new Gamemaster(&gd);
 
   SDL_Texture* grass_texture = IMG_LoadTexture(renderer, "tile_l.png");
@@ -98,7 +102,8 @@ int main(int argc, char *argv[]) {
     }
   }
   gm->sort_cells();
-  gm->set_transform();
+  gm->give_transform();
+  gm->give_offset_n_scale();
 
 
   //TEST AREA ENDS HERE
@@ -128,6 +133,11 @@ int main(int argc, char *argv[]) {
       }
       if(event.type == SDL_MOUSEBUTTONUP){
         if(event.button.button == SDL_BUTTON_LEFT){
+          Vec2 pos = {0, 0};
+          int x, y;
+          SDL_GetMouseState(&x, &y);
+          pos.x = (double)x; pos.y = (double)y;
+          gm->get_clicked(pos);
         }
         if(event.button.button == SDL_BUTTON_RIGHT){
         }

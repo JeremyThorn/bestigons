@@ -8,7 +8,9 @@ public:
   void sort_cells();
   void get_clicked(Vec2 mousepos);
   void get_transform(Matrix22* out_transform);
-  void set_transform();
+  void set_transform(Matrix22 in_transform);
+  void give_transform();
+  void give_offset_n_scale();
 
 private:
   std::vector<Cell*> cells;
@@ -19,4 +21,5 @@ private:
   int HEIGHT;
   double scale;
   Matrix22 transform = {0, 0, 0, 0};
+  Vec2 offset_n_scale = {0, 0};
 };

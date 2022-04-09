@@ -23,12 +23,15 @@ void Cell::draw_self(SDL_Texture* texture, double rad, double XOFF, double YOFF)
   //transform.d = cos(M_PI/4)/sqrt(3);
 
   //THIS IS ACTUALLY SOO GOOD
-  Vec2 new_coord = transform*((2.95*rad*sqrt(1.0/2.0))*(coord));
+  //Vec2 new_coord = transform*((2.95*rad*sqrt(1.0/2.0))*(coord));
+  Vec2 new_coord = transform*(coord)+offset_n_scale;
 
 
   SDL_Rect hex_rect;
-  hex_rect.x = new_coord.x+XOFF - rad;
-  hex_rect.y = new_coord.y+YOFF-height - rad*sqrt(3)/2;
+  //hex_rect.x = new_coord.x+XOFF - rad;
+  //hex_rect.y = new_coord.y+YOFF-height - rad*sqrt(3)/2;
+  hex_rect.x = new_coord.x;
+  hex_rect.y = new_coord.y-height;
   hex_rect.w = 2*rad;
   hex_rect.h = 2*rad*sqrt(3)/2*2.5;
 
@@ -65,8 +68,10 @@ void Cell::set_transform(Matrix22 in_transform){
   transform.d = in_transform.d;
 }
 
-
-
+void Cell::set_offset_n_scale(Vec2 in_offset_n_scale){
+  offset_n_scale.x = in_offset_n_scale.x;
+  offset_n_scale.y = in_offset_n_scale.y;
+}
 
 bool comp_cell(Cell* c1, Cell* c2){
   Vec2 v1,v2;
