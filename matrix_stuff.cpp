@@ -101,3 +101,7 @@ std::ostream& operator<<(std::ostream& os, const Matrix22& m)
   os << "[[" << m.a << ", " << m.b << "]" << std::endl << " [" << m.c << ", " << m.d << "]]";
   return os;
 }
+
+bool comp_coord(Vec2 v1, Vec2 v2){
+  return v1 < v2;
+}
