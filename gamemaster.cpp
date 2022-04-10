@@ -73,7 +73,7 @@ void Gamemaster::give_offset_n_scale(){
 
 void Gamemaster::zoom(double in_zoom, Vec2 zoom_vec){
   transform = transform*in_zoom;
-  offset_n_scale = offset_n_scale + (-in_zoom+1)*zoom_vec;
+  offset_n_scale = in_zoom*offset_n_scale + (-in_zoom+1)*zoom_vec;
   scale = scale*in_zoom;
   give_transform();
   give_offset_n_scale();
