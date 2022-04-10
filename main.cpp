@@ -61,7 +61,7 @@ int main(int argc, char *argv[]) {
 
   Gamemaster* gm = new Gamemaster(&gd);
 
-  SDL_Texture* grass_texture = IMG_LoadTexture(renderer, "tile_b.png");
+  SDL_Texture* grass_texture = IMG_LoadTexture(renderer, "tile_l.png");
   if(grass_texture==NULL){
     printf("Dwarfboi texture failed to load");
     exit(1);
@@ -110,6 +110,10 @@ int main(int argc, char *argv[]) {
 
 
   while(1) {
+    Vec2 pos = {0, 0};
+    int x, y;
+    SDL_GetMouseState(&x, &y);
+    pos.x = (double)x; pos.y = (double)y;
     gm->draw_self(texture);
 
     SDL_RenderPresent(renderer);
@@ -133,10 +137,10 @@ int main(int argc, char *argv[]) {
       }
       if(event.type == SDL_MOUSEBUTTONUP){
         if(event.button.button == SDL_BUTTON_LEFT){
-          Vec2 pos = {0, 0};
-          int x, y;
-          SDL_GetMouseState(&x, &y);
-          pos.x = (double)x; pos.y = (double)y;
+          //Vec2 pos = {0, 0};
+          //int x, y;
+          //SDL_GetMouseState(&x, &y);
+          //pos.x = (double)x; pos.y = (double)y;
           gm->get_clicked(pos);
         }
         if(event.button.button == SDL_BUTTON_RIGHT){
@@ -144,6 +148,7 @@ int main(int argc, char *argv[]) {
 
       }
       if(event.type == SDL_MOUSEWHEEL){
+        gm->zoom(pow(1.1,event.wheel.y),pos);
       }
     }
   }
