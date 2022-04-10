@@ -115,10 +115,12 @@ void Gamemaster::get_clicked(Vec2 mousepos){
       double test_height;
       (*it)->get_coords(&test_coords);
       (*it)->get_height(&test_height);
+      std::cout << test_height << std::endl;
       Vec2 height_mousepos = {mousepos.x, mousepos.y+test_height};
-      Vec2 test_grid_coord = invert(transform)*(height_mousepos - offset_n_scale);
-      test_grid_coord.x=round(test_grid_coord.x); test_grid_coord.y=round(test_grid_coord.y);
-      std::cout << test_grid_coord << std::endl;
+      Vec2 test_grid_coord_unround = invert(transform)*(height_mousepos - offset_n_scale);
+      Vec2 test_grid_coord;
+      test_grid_coord.x=round(test_grid_coord_unround.x); test_grid_coord.y=round(test_grid_coord_unround.y);
+      std::cout << test_grid_coord_unround << std::endl;
       std::cout << height_mousepos << std::endl;
       std::cout << test_coords << std::endl;
       if (test_grid_coord == test_coords){
