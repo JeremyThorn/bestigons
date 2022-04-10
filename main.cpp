@@ -56,12 +56,12 @@ int main(int argc, char *argv[]) {
   gd.HEIGHT = HEIGHT;
   gd.scale = 50;
   Matrix22 rotator = {cos(M_PI/4), sin(M_PI/4), -sin(M_PI/4)/sqrt(3), cos(M_PI/4)/sqrt(3)};
-  gd.transform = rotator*(2.95*gd.scale*sqrt(1.0/2.0));
+  gd.transform = rotator*(3*gd.scale*sqrt(1.0/2.0));
   gd.offset_n_scale = {gd.WIDTH/2 - gd.scale, gd.HEIGHT/2 - gd.scale*sqrt(3)/2};
 
   Gamemaster* gm = new Gamemaster(&gd);
 
-  SDL_Texture* grass_texture = IMG_LoadTexture(renderer, "tile_l.png");
+  SDL_Texture* grass_texture = IMG_LoadTexture(renderer, "tile_b.png");
   if(grass_texture==NULL){
     printf("Dwarfboi texture failed to load");
     exit(1);
