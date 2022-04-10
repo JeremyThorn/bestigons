@@ -80,6 +80,16 @@ bool operator<( const Vec2& v1, const Vec2& v2 )
   return (-v1.x+v1.y) < (v2.y-v2.x);
 }
 
+bool operator==( const Vec2& v1, const Vec2& v2 )
+{
+  if(v1.x == v2.x && v1.y == v2.y){
+    return true;
+  }
+  else{
+    return false;
+  }
+}
+
 std::ostream& operator<<(std::ostream& os, const Vec2& v)
 {
   os << "[" << v.x << ", " << v.y << "]";

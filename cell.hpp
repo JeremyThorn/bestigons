@@ -9,7 +9,6 @@ public:
   void get_damage(double* damage);
   void set_damage(double damage);
 
-  void get_height(double* height);
   void set_height(double height);
 
   void add_item(Item* item);
@@ -21,6 +20,8 @@ public:
   void draw_self(SDL_Texture* texture, double rad, double XOFF, double YOFF);
 
   void get_coords(Vec2* coord);
+  void get_height(double* out_height);
+  Vec2 return_coords() const;
   void set_transform(Matrix22 in_transform);
   void set_offset_n_scale(Vec2 in_offset_n_scale);
 private:

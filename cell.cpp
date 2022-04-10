@@ -38,6 +38,10 @@ void Cell::draw_self(SDL_Texture* texture, double rad, double XOFF, double YOFF)
   SDL_SetRenderTarget(renderer,texture);
   SDL_RenderCopy(renderer,floor_texture,NULL,&hex_rect);
   SDL_SetRenderTarget(renderer,NULL);
+  SDL_RenderDrawPoint(renderer,hex_rect.x,hex_rect.y);
+  //SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+  SDL_RenderDrawPoint(renderer,hex_rect.x+0.5*hex_rect.w,hex_rect.y+0.5*hex_rect.h/2.5);
+  //SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 
 }
 
@@ -59,6 +63,14 @@ Cell::Cell(Cell_data* cell_data){
 void Cell::get_coords(Vec2* coords){
   coords->x = coord.x;
   coords->y = coord.y;
+}
+
+void Cell::get_height(double* out_height){
+  *out_height = height;
+}
+
+Vec2 Cell::return_coords() const{
+  return coord;
 }
 
 void Cell::set_transform(Matrix22 in_transform){

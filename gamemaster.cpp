@@ -71,8 +71,49 @@ void Gamemaster::give_offset_n_scale(){
 }
 
 void Gamemaster::get_clicked(Vec2 mousepos){
+  //These two lines are to rescale sp that we a relative to the center of the
+  //hex, rather than the top left hand corner (where the rect cood is).
+  mousepos.x -= scale;
+  mousepos.y -= scale*sqrt(3)/2;
+  //Transform to grid space.
   Vec2 grid_coord = invert(transform)*(mousepos - offset_n_scale);
   grid_coord.x=round(grid_coord.x); grid_coord.y=round(grid_coord.y);
   std::cout << grid_coord << std::endl;
+  Vec2 step_down_line = {-1, 1};
+  std::vector<Vec2> line;
+  for(int i = 3; i >= -3; i--){
+    line.push_back(grid_coord+(double)i*step_down_line);
+  }
+  std::cout << std::endl;
+  for(Vec2 coord : line){
+    std::cout << coord << std::endl;
+  }
+  //auto old_it = cells.begin();
+  Cell* selected_cell;
+  for(Vec2 coord : line){
+
+    const auto it = find_if(cells.begin(), cells.end(), [coord](const Cell* cell) {return cell->return_coords() == coord;});
+
+
+    if (it != cells.end())
+    {
+      std::cout << std::endl;
+      Vec2 test_coords;
+      double test_height;
+      (*it)->get_coords(&test_coords);
+      (*it)->get_height(&test_height);
+      Vec2 height_mousepos = {mousepos.x, mousepos.y+test_height};
+      Vec2 test_grid_coord = invert(transform)*(height_mousepos - offset_n_scale);
+      test_grid_coord.x=round(test_grid_coord.x); test_grid_coord.y=round(test_grid_coord.y);
+      std::cout << test_grid_coord << std::endl;
+      std::cout << height_mousepos << std::endl;
+      std::cout << test_coords << std::endl;
+      if (test_grid_coord == test_coords){
+        selected_cell = (*it);
+        break;
+      }
+      //old_it = it;
+    }
+  }
 
 }
