@@ -79,6 +79,11 @@ void Gamemaster::zoom(double in_zoom, Vec2 zoom_vec){
   give_offset_n_scale();
 }
 
+void Gamemaster::set_offset(Vec2 in_offset){
+  offset_n_scale = offset_n_scale + in_offset;
+  give_offset_n_scale();
+}
+
 void Gamemaster::get_clicked(Vec2 mousepos){
   //These two lines are to rescale sp that we a relative to the center of the
   //hex, rather than the top left hand corner (where the rect cood is).

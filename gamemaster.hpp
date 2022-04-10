@@ -12,7 +12,7 @@ public:
   void give_transform();
   void give_offset_n_scale();
   void zoom(double zoom,Vec2 zoom_vec);
-  void set_offset(double offset);
+  void set_offset(Vec2 offset);
 
 private:
   std::vector<Cell*> cells;

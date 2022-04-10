@@ -48,6 +48,11 @@ int main(int argc, char *argv[]) {
 
   SDL_Event event;
 
+  bool panning = false;
+
+  Vec2 pos = {0, 0};
+  Vec2 old_pos = {0, 0};
+
   //TEST AREA STARTS HERE
 
   Gamemaster_data gd;
@@ -115,7 +120,7 @@ int main(int argc, char *argv[]) {
 
 
 
-    Vec2 pos = {0, 0};
+
     int x, y;
     SDL_GetMouseState(&x, &y);
     pos.x = (double)x; pos.y = (double)y;
@@ -124,6 +129,15 @@ int main(int argc, char *argv[]) {
     SDL_RenderPresent(renderer);
     SDL_RenderClear(renderer);
     SDL_DestroyTexture(texture);
+
+    if(panning){
+      Vec2 diff;
+      diff = pos-old_pos;
+      gm->set_offset(diff);
+      old_pos.x = pos.x;
+      old_pos.y = pos.y;
+    }
+
     while(SDL_PollEvent(&event)) {
       if(event.type == SDL_QUIT) {
         SDL_DestroyWindow(window);
@@ -135,6 +149,9 @@ int main(int argc, char *argv[]) {
       }
       if(event.type == SDL_MOUSEBUTTONDOWN){
         if(event.button.button == SDL_BUTTON_LEFT){
+          panning = true;
+          old_pos.x = pos.x;
+          old_pos.y = pos.y;
         }
         if(event.button.button == SDL_BUTTON_RIGHT){
         }
@@ -146,6 +163,7 @@ int main(int argc, char *argv[]) {
           //int x, y;
           //SDL_GetMouseState(&x, &y);
           //pos.x = (double)x; pos.y = (double)y;
+          panning = false;
           gm->get_clicked(pos);
         }
         if(event.button.button == SDL_BUTTON_RIGHT){
