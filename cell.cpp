@@ -31,7 +31,7 @@ void Cell::draw_self(SDL_Texture* texture, double rad, double XOFF, double YOFF)
   //hex_rect.x = new_coord.x+XOFF - rad;
   //hex_rect.y = new_coord.y+YOFF-height - rad*sqrt(3)/2;
   hex_rect.x = new_coord.x;
-  hex_rect.y = new_coord.y-height;
+  hex_rect.y = new_coord.y-height*rad/50;
   hex_rect.w = 2*rad;
   hex_rect.h = 2*rad*sqrt(3)/2*2.5;
 

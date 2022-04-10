@@ -84,6 +84,10 @@ void Gamemaster::set_offset(Vec2 in_offset){
   give_offset_n_scale();
 }
 
+void Gamemaster::rotate(double angle){
+  //blast
+}
+
 void Gamemaster::get_clicked(Vec2 mousepos){
   //These two lines are to rescale sp that we a relative to the center of the
   //hex, rather than the top left hand corner (where the rect cood is).
@@ -121,7 +125,7 @@ void Gamemaster::get_clicked(Vec2 mousepos){
       (*it)->get_coords(&test_coords);
       (*it)->get_height(&test_height);
       std::cout << test_height << std::endl;
-      Vec2 height_mousepos = {mousepos.x, mousepos.y+test_height};
+      Vec2 height_mousepos = {mousepos.x, mousepos.y+test_height*scale/50};
       Vec2 test_grid_coord_unround = invert(transform)*(height_mousepos - offset_n_scale);
       Vec2 test_grid_coord;
       test_grid_coord.x=round(test_grid_coord_unround.x); test_grid_coord.y=round(test_grid_coord_unround.y);

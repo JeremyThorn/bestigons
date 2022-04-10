@@ -138,6 +138,13 @@ int main(int argc, char *argv[]) {
       old_pos.y = pos.y;
     }
 
+    if(SDL_GetKeyboardState(NULL)[SDL_SCANCODE_Q]){
+      std::cout << "Q";
+    }
+    if(SDL_GetKeyboardState(NULL)[SDL_SCANCODE_E]){
+      std::cout << "E";
+    }
+
     while(SDL_PollEvent(&event)) {
       if(event.type == SDL_QUIT) {
         SDL_DestroyWindow(window);
