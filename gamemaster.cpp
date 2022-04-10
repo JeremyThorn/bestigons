@@ -99,7 +99,6 @@ void Gamemaster::get_clicked(Vec2 mousepos){
 
     const auto it = find_if(cells.begin(), cells.end(), [coord](const Cell* cell) {return cell->return_coords() == coord;});
 
-
     if (it != cells.end())
     {
       std::cout << std::endl;

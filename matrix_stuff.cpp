@@ -73,7 +73,10 @@ Vec2 operator+( const double& d, const Vec2& v )
   return ans;
 }
 
-
+bool operator>( const Vec2& v1, const Vec2& v2 )
+{
+  return (-v1.x+v1.y) > (v2.y-v2.x);
+}
 
 bool operator<( const Vec2& v1, const Vec2& v2 )
 {
@@ -103,5 +106,5 @@ std::ostream& operator<<(std::ostream& os, const Matrix22& m)
 }
 
 bool comp_coord(Vec2 v1, Vec2 v2){
-  return v1 < v2;
+  return v1 > v2;
 }
