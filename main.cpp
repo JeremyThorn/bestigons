@@ -22,7 +22,7 @@ const int HEIGHT = 900;
 int main(int argc, char *argv[]) {
   SDL_Window *window;
   SDL_Renderer *renderer;
-  SDL_Texture *texture;
+
 
 
   if(SDL_Init(SDL_INIT_EVERYTHING) < 0) {
@@ -44,7 +44,7 @@ int main(int argc, char *argv[]) {
   }
 
   renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE);
-  texture  = SDL_CreateTexture(renderer,SDL_PIXELFORMAT_ARGB8888,SDL_TEXTUREACCESS_STREAMING,WIDTH,HEIGHT);
+
 
   SDL_Event event;
 
@@ -110,6 +110,11 @@ int main(int argc, char *argv[]) {
 
 
   while(1) {
+    SDL_Texture *texture  = SDL_CreateTexture(renderer,SDL_PIXELFORMAT_ARGB8888,SDL_TEXTUREACCESS_STREAMING,WIDTH,HEIGHT);
+
+
+
+
     Vec2 pos = {0, 0};
     int x, y;
     SDL_GetMouseState(&x, &y);
@@ -117,8 +122,8 @@ int main(int argc, char *argv[]) {
     gm->draw_self(texture);
 
     SDL_RenderPresent(renderer);
-
-
+    SDL_RenderClear(renderer);
+    SDL_DestroyTexture(texture);
     while(SDL_PollEvent(&event)) {
       if(event.type == SDL_QUIT) {
         SDL_DestroyWindow(window);
