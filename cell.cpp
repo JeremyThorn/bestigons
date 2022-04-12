@@ -33,9 +33,17 @@ void Cell::draw_self(SDL_Texture* texture, double rad, double XOFF, double YOFF,
   hex_rect.x = new_coord.x;
   hex_rect.y = new_coord.y-height*rad/50;
   hex_rect.w = 2*rad;
-  hex_rect.h = 2*rad*sqrt(3)/2*2.5;
+  hex_rect.h = 2*rad*sqrt(3)/2;
+
+  SDL_Rect pillar_rect;
+
+  pillar_rect.x = new_coord.x;
+  pillar_rect.y = new_coord.y + rad*sqrt(3)/2-height*rad/50;
+  pillar_rect.w = 2*rad;
+  pillar_rect.h = 2*rad*2;
 
   SDL_SetRenderTarget(renderer,texture);
+  SDL_RenderCopy(renderer,pillar_texture,NULL,&pillar_rect);
   SDL_RenderCopy(renderer,floor_texture,NULL,&hex_rect);
   SDL_SetRenderTarget(renderer,NULL);
   SDL_RenderDrawPoint(renderer,hex_rect.x,hex_rect.y);

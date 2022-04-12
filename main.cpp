@@ -66,8 +66,14 @@ int main(int argc, char *argv[]) {
 
   Gamemaster* gm = new Gamemaster(&gd);
 
-  SDL_Texture* grass_texture = IMG_LoadTexture(renderer, "tile_l.png");
+  SDL_Texture* grass_texture = IMG_LoadTexture(renderer, "tile_c.png");
   if(grass_texture==NULL){
+    printf("Dwarfboi texture failed to load");
+    exit(1);
+  }
+
+  SDL_Texture* pillar_texture = IMG_LoadTexture(renderer, "pillar.png");
+  if(pillar_texture==NULL){
     printf("Dwarfboi texture failed to load");
     exit(1);
   }
@@ -102,6 +108,7 @@ int main(int argc, char *argv[]) {
       }
       test_cell_data.renderer = renderer;
       test_cell_data.floor_texture = grass_texture;
+      test_cell_data.pillar_texture = pillar_texture;
 
       gm->add_cell(new Cell(&test_cell_data));
     }
