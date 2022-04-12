@@ -31,7 +31,7 @@ private:
   Vec2 coord;
   int movement_cost = 0;
   double damage = 0.0;
-  double height = 0.0;
+  double height = -1;
   Obstacle obstacle;
   Liquid liquid;
   SDL_Renderer* renderer;

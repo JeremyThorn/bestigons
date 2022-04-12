@@ -89,7 +89,7 @@ bool operator>( const Vec2& v1, const Vec2& v2 )
 
 bool operator<( const Vec2& v1, const Vec2& v2 )
 {
-  return (-v1.x+v1.y) < (v2.y-v2.x);
+  return (-v1.x+v1.y) > (v2.y-v2.x);
 }
 
 bool operator==( const Vec2& v1, const Vec2& v2 )

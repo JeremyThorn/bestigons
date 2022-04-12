@@ -87,7 +87,7 @@ int main(int argc, char *argv[]) {
       test_cell_data.coord.y=(int)(j-areas/2);
       test_cell_data.movement_cost = 0;
       test_cell_data.damage = 0;
-      test_cell_data.height = 0;
+      test_cell_data.height = -1;
       if( i == 15 && j == 15){
         test_cell_data.height = 20;
       }

@@ -138,7 +138,7 @@ void Gamemaster::get_clicked(Vec2 mousepos){
        y > Bl + col*dBx + row*dBy && y <= Bh + col*dBx + row*dBy &&
        y > Cl + col*dC + row*dC && y <= Ch + col*dC + row*dC){
       got_it = true;
-      grid_coord.x = col; grid_coord.y = row;
+      grid_coord.x = col; grid_coord.y = -row;
     }
     else{
       col += 1.0;
@@ -157,16 +157,20 @@ void Gamemaster::get_clicked(Vec2 mousepos){
   //grid_coord.x=round(grid_coord.x); grid_coord.y=round(grid_coord.y);
 
   //std::cout << grid_coord << std::endl;
-  Vec2 step_down_line = {-1, -1};
+  Vec2 step_down_line = {-1, 1};
   Vec2 left_offset = {0, 1};
-  Vec2 right_offset = {1, 0};
+  Vec2 right_offset = {-1, 0};
   std::vector<Vec2> line;
   for(int i = 3; i >= -3; i--){
     line.push_back(grid_coord+(double)i*step_down_line);
     line.push_back(grid_coord+(double)i*step_down_line + left_offset);
     line.push_back(grid_coord+(double)i*step_down_line + right_offset);
   }
-  std::sort(line.begin(),line.end(), comp_coord);
+  std::cout << std::endl;
+  for(Vec2 coord : line){
+    std::cout << coord << std::endl;
+  }
+  std::sort(line.begin(),line.end());
   std::cout << std::endl;
   for(Vec2 coord : line){
     std::cout << coord << std::endl;
@@ -202,7 +206,7 @@ void Gamemaster::get_clicked(Vec2 mousepos){
            y > Bl + col*dBx + row*dBy && y <= Bh + col*dBx + row*dBy &&
            y > Cl + col*dC + row*dC && y <= Ch + col*dC + row*dC){
           got_it = true;
-          test_grid_coord.x = col; test_grid_coord.y = row;
+          test_grid_coord.x = col; test_grid_coord.y = -row;
         }
         else{
           col += 1.0;
