@@ -17,6 +17,20 @@
 void Cell::draw_self(SDL_Texture* texture, double rad, double XOFF, double YOFF, double angle){
   Vec2 new_coord = transform*(coord)+offset_n_scale;
 
+  double angle_60 = angle;
+  bool is_in_range = false;
+  while(!is_in_range){
+    if(angle_60 > M_PI/3){
+      angle_60 = angle_60 - M_PI/3;
+    }
+    else if(angle_60 < 0){
+      angle_60 = angle_60 + M_PI/3;
+    }
+    else{
+      is_in_range=true;
+    }
+  }
+
 
   SDL_Rect hex_rect;
   //hex_rect.x = new_coord.x+XOFF - rad;
@@ -28,10 +42,10 @@ void Cell::draw_self(SDL_Texture* texture, double rad, double XOFF, double YOFF,
 
 
 
-  double cosine_boy = std::max(cos(angle),std::max(cos(angle+M_PI/3),cos(angle-M_PI/3)));
+  double cosine_boy = std::max(cos(angle_60),std::max(cos(angle_60+M_PI/3),cos(angle_60-M_PI/3)));
   double sinny_boy = sqrt(1-cosine_boy*cosine_boy);
 
-  if(angle < M_PI/6){
+  if(angle_60 < M_PI/6){
     sinny_boy = -sinny_boy;
   }
   SDL_Rect pillar_rect_l;
