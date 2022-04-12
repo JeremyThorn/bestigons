@@ -104,13 +104,60 @@ void Gamemaster::rotate(double in_angle,Vec2 rot_p){
 }
 
 void Gamemaster::get_clicked(Vec2 mousepos){
+  double s = sqrt(3.0);
+  double l = 1.0/(s*sqrt(3.0/2.0));
+  double g = atan(s*sqrt(3.0))+2.0*atan(1.0/(s*sqrt(3.0)));
+  double t = tan(g);
+  double m1 = (1.0+t)/(1.0-t);
+  double m2 = (1.0-t)/(1.0+t);
+  double x1 = sqrt(3.0/8.0)*s*l;
+  double x2 = l/sqrt(2.0);
+  double dAx = -(m1*x2-x2);
+  double dAy = 2.0*(m1*x2-x2);
+  double dBx = -2.0*(m2*x2-x2);
+  double dBy = (m2*x2-x2);
+  double dC = -2.0*x1;
   //These two lines are to rescale sp that we a relative to the center of the
   //hex, rather than the top left hand corner (where the rect cood is).
-  mousepos.x -= scale;
-  mousepos.y -= scale*sqrt(3)/2;
+  //mousepos.x -= scale;
+  //mousepos.y -= scale*sqrt(3)/2;
   //Transform to grid space.
   Vec2 grid_coord = invert(transform)*(mousepos - offset_n_scale);
-  grid_coord.x=round(grid_coord.x); grid_coord.y=round(grid_coord.y);
+  std::cout << grid_coord << std::endl;
+  double x = grid_coord.x; double y = grid_coord.y;
+  double Al = m1*x+m1*x2-x2; double Ah = m1*x-m1*x2+x2;
+  double Bl = m2*x+m2*x2-x2; double Bh = m2*x-m2*x2+x2;
+  double Cl = x - 2.0*x1; double Ch = x + 2.0*x1;
+
+  bool got_it = false;
+  Vec2 selected_coord = {0.0, 0.0};
+  double row = -15.0; double col = -15.0;
+  double max_row = 15.0; double max_col = 15.0;
+  while(got_it == false){
+    if(y > Al + col*dAx + row*dAy && y <= Ah + col*dAx + row*dAy &&
+       y > Bl + col*dBx + row*dBy && y <= Bh + col*dBx + row*dBy &&
+       y > Cl + col*dC + row*dC && y <= Ch + col*dC + row*dC){
+      //std::cout << "yay5" << std::endl;
+      got_it = true;
+      std::cout << row << col << std::endl;
+    }
+    else{
+      col += 1.0;
+      if(col > max_col){
+        row += 1.0;
+        col = 0.0;
+        if(row > max_row){
+          std::cout << "Failed to find cell." << std::endl;
+          break;
+        }
+      }
+    }
+    //got_it = true;
+  }
+  //selected_coord.x = (double)col*2*x1; selected_coord.y = (double)row*2*x1;
+  //std::cout << selected_coord << std::endl;
+  //grid_coord.x=round(grid_coord.x); grid_coord.y=round(grid_coord.y);
+  /*
   std::cout << grid_coord << std::endl;
   Vec2 step_down_line = {-1, 1};
   Vec2 left_offset = {0, -1};
@@ -153,6 +200,6 @@ void Gamemaster::get_clicked(Vec2 mousepos){
       }
       //old_it = it;
     }
-  }
+  }*/
 
 }
