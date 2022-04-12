@@ -30,24 +30,28 @@ void Cell::draw_self(SDL_Texture* texture, double rad, double XOFF, double YOFF,
 
   double cosine_boy = std::max(cos(angle),std::max(cos(angle+M_PI/3),cos(angle-M_PI/3)));
   double sinny_boy = sqrt(1-cosine_boy*cosine_boy);
+
+  if(angle < M_PI/6){
+    sinny_boy = -sinny_boy;
+  }
   SDL_Rect pillar_rect_l;
 
   pillar_rect_l.x = new_coord.x+rad*(1-cosine_boy);
-  pillar_rect_l.y = new_coord.y + rad*sqrt(3)/2-height*rad/50-abs(sinny_boy)*rad;
-  pillar_rect_l.w = 2*rad*cosine_boy;
-  pillar_rect_l.h = 2*rad*2;
+  pillar_rect_l.y = new_coord.y + rad*sqrt(3)/2-height*rad/50+sinny_boy*rad;
+  pillar_rect_l.w = rad*cosine_boy+2;
+  pillar_rect_l.h = 2*rad*2-sinny_boy*rad;
 
   SDL_Rect pillar_rect_r;
 
-  pillar_rect_r.x = new_coord.x+rad*(1-cosine_boy);
-  pillar_rect_r.y = new_coord.y + rad*sqrt(3)/2-height*rad/50-abs(sinny_boy)*rad;
-  pillar_rect_r.w = 2*rad*cosine_boy;
-  pillar_rect_r.h = 2*rad*2;
+  pillar_rect_r.x = new_coord.x+rad;
+  pillar_rect_r.y = new_coord.y + rad*sqrt(3)/2-height*rad/50-sinny_boy*rad;
+  pillar_rect_r.w = rad*cosine_boy;
+  pillar_rect_r.h = 2*rad*2+sinny_boy*rad;
 
   std::cout << 360*angle/(M_PI*2) << std::endl;
   SDL_SetRenderTarget(renderer,texture);
-  SDL_RenderCopy(renderer,pillar_texture,NULL,&pillar_rect_r);
-  SDL_RenderCopyEx(renderer,pillar_texture,NULL,&pillar_rect_l,0,NULL,SDL_FLIP_HORIZONTAL);
+  SDL_RenderCopy(renderer,pillar_texture,NULL,&pillar_rect_l);
+  SDL_RenderCopyEx(renderer,pillar_texture,NULL,&pillar_rect_r,0,NULL,SDL_FLIP_HORIZONTAL);
   SDL_RenderCopyEx(renderer,floor_texture,NULL,&hex_rect,360*angle/(M_PI*2),NULL,SDL_FLIP_NONE);
   SDL_SetRenderTarget(renderer,NULL);
   SDL_RenderDrawPoint(renderer,hex_rect.x,hex_rect.y);
