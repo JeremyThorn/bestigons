@@ -35,8 +35,8 @@ void Cell::draw_self(SDL_Texture* texture, double rad, double XOFF, double YOFF,
   SDL_Rect hex_rect;
   //hex_rect.x = new_coord.x+XOFF - rad;
   //hex_rect.y = new_coord.y+YOFF-height - rad*sqrt(3)/2;
-  hex_rect.x = new_coord.x;
-  hex_rect.y = new_coord.y-height*rad/50;
+  hex_rect.x = new_coord.x -rad;
+  hex_rect.y = new_coord.y-height*rad/50 - rad*sqrt(3)/2;
   hex_rect.w = 2*rad;
   hex_rect.h = 2*rad*sqrt(3)/2;
 
@@ -50,15 +50,15 @@ void Cell::draw_self(SDL_Texture* texture, double rad, double XOFF, double YOFF,
   }
   SDL_Rect pillar_rect_l;
 
-  pillar_rect_l.x = new_coord.x+rad*(1-cosine_boy);
-  pillar_rect_l.y = new_coord.y + rad*sqrt(3)/2-height*rad/50+sinny_boy*rad;
+  pillar_rect_l.x = new_coord.x+rad*(-cosine_boy);
+  pillar_rect_l.y = new_coord.y-height*rad/50+sinny_boy*rad;
   pillar_rect_l.w = rad*cosine_boy+2;
   pillar_rect_l.h = 2*rad*2-sinny_boy*rad;
 
   SDL_Rect pillar_rect_r;
 
-  pillar_rect_r.x = new_coord.x+rad;
-  pillar_rect_r.y = new_coord.y + rad*sqrt(3)/2-height*rad/50-sinny_boy*rad;
+  pillar_rect_r.x = new_coord.x;
+  pillar_rect_r.y = new_coord.y -height*rad/50-sinny_boy*rad;
   pillar_rect_r.w = rad*cosine_boy;
   pillar_rect_r.h = 2*rad*2+sinny_boy*rad;
 
