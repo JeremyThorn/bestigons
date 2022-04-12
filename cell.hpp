@@ -19,6 +19,8 @@ public:
 
   void draw_self(SDL_Texture* texture, double rad, double XOFF, double YOFF, double angle);
 
+  void get_real_height(double* y);
+
   void get_coords(Vec2* coord);
   void get_height(double* out_height);
   Vec2 return_coords() const;
@@ -43,3 +45,4 @@ private:
 
 
 bool comp_cell(Cell* c1, Cell* c2);
+bool comp_cell_y(Cell* c1, Cell* c2);

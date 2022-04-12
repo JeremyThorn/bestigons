@@ -40,7 +40,7 @@ void Gamemaster::draw_self(SDL_Texture* texture){
 }
 
 void Gamemaster::sort_cells(){
-  std::sort(cells.begin(),cells.end(),comp_cell);
+  std::sort(cells.begin(),cells.end(),comp_cell_y);
 
 }
 
@@ -77,14 +77,16 @@ void Gamemaster::zoom(double in_zoom, Vec2 zoom_vec){
   scale = scale*in_zoom;
   give_transform();
   give_offset_n_scale();
+  sort_cells();
 }
 
 void Gamemaster::set_offset(Vec2 in_offset){
   offset_n_scale = offset_n_scale + in_offset;
   give_offset_n_scale();
+  sort_cells();
 }
 
-void Gamemaster::rotate(double in_angle){
+void Gamemaster::rotate(double in_angle,Vec2 rot_p){
   angle = angle+in_angle;
   if(angle > M_PI*2){
     angle = angle - M_PI*2;
@@ -92,6 +94,13 @@ void Gamemaster::rotate(double in_angle){
   if(angle < 0){
     angle = angle + M_PI*2;
   }
+
+  Matrix22 rot_mat = {cos(-in_angle), sin(-in_angle), -sin(-in_angle), cos(-in_angle)};
+  transform = rot_mat*transform;
+  offset_n_scale = rot_mat*offset_n_scale - rot_mat*rot_p + rot_p;
+  give_transform();
+  give_offset_n_scale();
+  sort_cells();
 }
 
 void Gamemaster::get_clicked(Vec2 mousepos){

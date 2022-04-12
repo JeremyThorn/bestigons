@@ -62,7 +62,7 @@ void Cell::draw_self(SDL_Texture* texture, double rad, double XOFF, double YOFF,
   pillar_rect_r.w = rad*cosine_boy;
   pillar_rect_r.h = 2*rad*2+sinny_boy*rad;
 
-  std::cout << 360*angle/(M_PI*2) << std::endl;
+  //std::cout << 360*angle/(M_PI*2) << std::endl;
   SDL_SetRenderTarget(renderer,texture);
   SDL_RenderCopy(renderer,pillar_texture,NULL,&pillar_rect_l);
   SDL_RenderCopyEx(renderer,pillar_texture,NULL,&pillar_rect_r,0,NULL,SDL_FLIP_HORIZONTAL);
@@ -114,6 +114,20 @@ void Cell::set_transform(Matrix22 in_transform){
 void Cell::set_offset_n_scale(Vec2 in_offset_n_scale){
   offset_n_scale.x = in_offset_n_scale.x;
   offset_n_scale.y = in_offset_n_scale.y;
+}
+
+void Cell::get_real_height(double* y){
+  Vec2 new_coord = transform*(coord)+offset_n_scale;
+  *y = new_coord.y;
+
+
+}
+
+bool comp_cell_y(Cell* c1, Cell* c2){
+  double y1,y2;
+  c1->get_real_height(&y1);
+  c2->get_real_height(&y2);
+  return y1 < y2;
 }
 
 bool comp_cell(Cell* c1, Cell* c2){

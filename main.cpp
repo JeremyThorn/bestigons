@@ -113,9 +113,10 @@ int main(int argc, char *argv[]) {
       gm->add_cell(new Cell(&test_cell_data));
     }
   }
-  gm->sort_cells();
+
   gm->give_transform();
   gm->give_offset_n_scale();
+  gm->sort_cells();
 
 
   //TEST AREA ENDS HERE
@@ -146,10 +147,10 @@ int main(int argc, char *argv[]) {
     }
 
     if(SDL_GetKeyboardState(NULL)[SDL_SCANCODE_Q]){
-      gm->rotate(0.01);
+      gm->rotate(0.01,pos);
     }
     if(SDL_GetKeyboardState(NULL)[SDL_SCANCODE_E]){
-      gm->rotate(-0.01);
+      gm->rotate(-0.01,pos);
     }
 
     while(SDL_PollEvent(&event)) {

@@ -41,6 +41,15 @@ Matrix22 operator*(const Matrix22& m, const double& d){
   return ans;
 }
 
+Matrix22 operator*(const Matrix22& m1, const Matrix22& m2){
+  Matrix22 ans;
+  ans.a = m1.a*m2.a + m1.b*m2.c;
+  ans.b = m1.a*m2.b + m1.b*m2.d;
+  ans.c = m1.c*m2.a + m1.d*m2.c;
+  ans.d = m1.d*m2.d + m1.c*m2.b;
+  return ans;
+}
+
 Vec2 operator+( const Vec2& v1, const Vec2& v2 )
 {
   Vec2 ans;
