@@ -44,7 +44,7 @@ void Cell::draw_self(SDL_Texture* texture, double rad, double XOFF, double YOFF,
 
   SDL_SetRenderTarget(renderer,texture);
   SDL_RenderCopy(renderer,pillar_texture,NULL,&pillar_rect);
-  SDL_RenderCopy(renderer,floor_texture,NULL,&hex_rect);
+  SDL_RenderCopyEx(renderer,floor_texture,NULL,&hex_rect,angle,NULL,SDL_FLIP_NONE);
   SDL_SetRenderTarget(renderer,NULL);
   SDL_RenderDrawPoint(renderer,hex_rect.x,hex_rect.y);
   //SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);

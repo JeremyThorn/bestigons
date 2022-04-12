@@ -146,10 +146,10 @@ int main(int argc, char *argv[]) {
     }
 
     if(SDL_GetKeyboardState(NULL)[SDL_SCANCODE_Q]){
-      std::cout << "Q";
+      gm->rotate(1);
     }
     if(SDL_GetKeyboardState(NULL)[SDL_SCANCODE_E]){
-      std::cout << "E";
+      gm->rotate(-1);
     }
 
     while(SDL_PollEvent(&event)) {
