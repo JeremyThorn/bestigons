@@ -86,6 +86,12 @@ void Gamemaster::set_offset(Vec2 in_offset){
 
 void Gamemaster::rotate(double in_angle){
   angle = angle+in_angle;
+  if(angle > M_PI/3){
+    angle = angle - M_PI/3;
+  }
+  if(angle < 0){
+    angle = angle + M_PI/3;
+  }
 }
 
 void Gamemaster::get_clicked(Vec2 mousepos){

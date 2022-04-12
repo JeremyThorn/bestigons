@@ -15,15 +15,6 @@
 #include "gamemaster.hpp"
 
 void Cell::draw_self(SDL_Texture* texture, double rad, double XOFF, double YOFF, double angle){
-  //Matrix22 transform;
-  //transform =
-  //transform.a = cos(M_PI/4);
-  //transform.b = sin(M_PI/4);
-  //transform.c = -sin(M_PI/4)/sqrt(3);
-  //transform.d = cos(M_PI/4)/sqrt(3);
-
-  //THIS IS ACTUALLY SOO GOOD
-  //Vec2 new_coord = transform*((2.95*rad*sqrt(1.0/2.0))*(coord));
   Vec2 new_coord = transform*(coord)+offset_n_scale;
 
 
@@ -35,16 +26,29 @@ void Cell::draw_self(SDL_Texture* texture, double rad, double XOFF, double YOFF,
   hex_rect.w = 2*rad;
   hex_rect.h = 2*rad*sqrt(3)/2;
 
-  SDL_Rect pillar_rect;
 
-  pillar_rect.x = new_coord.x;
-  pillar_rect.y = new_coord.y + rad*sqrt(3)/2-height*rad/50;
-  pillar_rect.w = 2*rad;
-  pillar_rect.h = 2*rad*2;
 
+  double cosine_boy = std::max(cos(angle),std::max(cos(angle+M_PI/3),cos(angle-M_PI/3)));
+  double sinny_boy = sqrt(1-cosine_boy*cosine_boy);
+  SDL_Rect pillar_rect_l;
+
+  pillar_rect_l.x = new_coord.x+rad*(1-cosine_boy);
+  pillar_rect_l.y = new_coord.y + rad*sqrt(3)/2-height*rad/50-abs(sinny_boy)*rad;
+  pillar_rect_l.w = 2*rad*cosine_boy;
+  pillar_rect_l.h = 2*rad*2;
+
+  SDL_Rect pillar_rect_r;
+
+  pillar_rect_r.x = new_coord.x+rad*(1-cosine_boy);
+  pillar_rect_r.y = new_coord.y + rad*sqrt(3)/2-height*rad/50-abs(sinny_boy)*rad;
+  pillar_rect_r.w = 2*rad*cosine_boy;
+  pillar_rect_r.h = 2*rad*2;
+
+  std::cout << 360*angle/(M_PI*2) << std::endl;
   SDL_SetRenderTarget(renderer,texture);
-  SDL_RenderCopy(renderer,pillar_texture,NULL,&pillar_rect);
-  SDL_RenderCopyEx(renderer,floor_texture,NULL,&hex_rect,angle,NULL,SDL_FLIP_NONE);
+  SDL_RenderCopy(renderer,pillar_texture,NULL,&pillar_rect_r);
+  SDL_RenderCopyEx(renderer,pillar_texture,NULL,&pillar_rect_l,0,NULL,SDL_FLIP_HORIZONTAL);
+  SDL_RenderCopyEx(renderer,floor_texture,NULL,&hex_rect,360*angle/(M_PI*2),NULL,SDL_FLIP_NONE);
   SDL_SetRenderTarget(renderer,NULL);
   SDL_RenderDrawPoint(renderer,hex_rect.x,hex_rect.y);
   //SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
