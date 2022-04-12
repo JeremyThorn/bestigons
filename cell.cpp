@@ -14,7 +14,7 @@
 #include "cell.hpp"
 #include "gamemaster.hpp"
 
-void Cell::draw_self(SDL_Texture* texture, double rad, double XOFF, double YOFF){
+void Cell::draw_self(SDL_Texture* texture, double rad, double XOFF, double YOFF, double angle){
   //Matrix22 transform;
   //transform =
   //transform.a = cos(M_PI/4);
@@ -55,6 +55,7 @@ Cell::Cell(Cell_data* cell_data){
   liquid = cell_data->liquid;
   renderer = cell_data->renderer;
   floor_texture = cell_data->floor_texture;
+  pillar_texture = cell_data->pillar_texture;
   floor_type = cell_data->floor_type;
   damage_type = cell_data->damage_type;
 }

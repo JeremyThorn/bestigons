@@ -20,6 +20,7 @@ private:
   SDL_Renderer* renderer;
   double xoff;
   double yoff;
+  double angle = 0;
   int WIDTH;
   int HEIGHT;
   double scale;

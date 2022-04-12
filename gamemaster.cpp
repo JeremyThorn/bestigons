@@ -35,7 +35,7 @@ void Gamemaster::add_cell(Cell* cell){
 
 void Gamemaster::draw_self(SDL_Texture* texture){
   for(Cell* cell : cells){
-    cell->draw_self(texture,scale,xoff,yoff);
+    cell->draw_self(texture,scale,xoff,yoff,angle);
   }
 }
 
@@ -84,8 +84,8 @@ void Gamemaster::set_offset(Vec2 in_offset){
   give_offset_n_scale();
 }
 
-void Gamemaster::rotate(double angle){
-  //blast
+void Gamemaster::rotate(double in_angle){
+  angle = angle+in_angle;
 }
 
 void Gamemaster::get_clicked(Vec2 mousepos){

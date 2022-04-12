@@ -33,6 +33,7 @@ struct Cell_data {
   Liquid liquid;
   SDL_Renderer* renderer;
   SDL_Texture* floor_texture;
+  SDL_Texture* pillar_texture;
   Floor_type floor_type;
   Damage_type damage_type;
 };

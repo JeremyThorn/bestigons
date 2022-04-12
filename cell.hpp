@@ -17,7 +17,7 @@ public:
   void set_obstacle(Obstacle obstacle);
   void set_liquid(Liquid liquid);
 
-  void draw_self(SDL_Texture* texture, double rad, double XOFF, double YOFF);
+  void draw_self(SDL_Texture* texture, double rad, double XOFF, double YOFF, double angle);
 
   void get_coords(Vec2* coord);
   void get_height(double* out_height);
@@ -34,6 +34,7 @@ private:
   Liquid liquid;
   SDL_Renderer* renderer;
   SDL_Texture* floor_texture;
+  SDL_Texture* pillar_texture;
   Floor_type floor_type = Floor_type::GRASS;
   Damage_type damage_type = Damage_type::CUT;
   Matrix22 transform = {0, 0, 0, 0};
