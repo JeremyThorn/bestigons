@@ -130,37 +130,35 @@ void Gamemaster::get_clicked(Vec2 mousepos){
   double Cl = x - 2.0*x1; double Ch = x + 2.0*x1;
 
   bool got_it = false;
-  Vec2 selected_coord = {0.0, 0.0};
+  //Vec2 selected_coord = {0.0, 0.0};
   double row = -15.0; double col = -15.0;
   double max_row = 15.0; double max_col = 15.0;
   while(got_it == false){
     if(y > Al + col*dAx + row*dAy && y <= Ah + col*dAx + row*dAy &&
        y > Bl + col*dBx + row*dBy && y <= Bh + col*dBx + row*dBy &&
        y > Cl + col*dC + row*dC && y <= Ch + col*dC + row*dC){
-      //std::cout << "yay5" << std::endl;
       got_it = true;
-      std::cout << row << col << std::endl;
+      grid_coord.x = col; grid_coord.y = row;
     }
     else{
       col += 1.0;
       if(col > max_col){
         row += 1.0;
-        col = 0.0;
+        col = -15.0;
         if(row > max_row){
           std::cout << "Failed to find cell." << std::endl;
           break;
         }
       }
     }
-    //got_it = true;
   }
   //selected_coord.x = (double)col*2*x1; selected_coord.y = (double)row*2*x1;
   //std::cout << selected_coord << std::endl;
   //grid_coord.x=round(grid_coord.x); grid_coord.y=round(grid_coord.y);
-  /*
-  std::cout << grid_coord << std::endl;
-  Vec2 step_down_line = {-1, 1};
-  Vec2 left_offset = {0, -1};
+
+  //std::cout << grid_coord << std::endl;
+  Vec2 step_down_line = {-1, -1};
+  Vec2 left_offset = {0, 1};
   Vec2 right_offset = {1, 0};
   std::vector<Vec2> line;
   for(int i = 3; i >= -3; i--){
@@ -188,10 +186,37 @@ void Gamemaster::get_clicked(Vec2 mousepos){
       (*it)->get_height(&test_height);
       std::cout << test_height << std::endl;
       Vec2 height_mousepos = {mousepos.x, mousepos.y+test_height*scale/50};
-      Vec2 test_grid_coord_unround = invert(transform)*(height_mousepos - offset_n_scale);
-      Vec2 test_grid_coord;
-      test_grid_coord.x=round(test_grid_coord_unround.x); test_grid_coord.y=round(test_grid_coord_unround.y);
-      std::cout << test_grid_coord_unround << std::endl;
+      Vec2 test_grid_coord = invert(transform)*(height_mousepos - offset_n_scale);
+
+      double x = test_grid_coord.x; double y = test_grid_coord.y;
+      double Al = m1*x+m1*x2-x2; double Ah = m1*x-m1*x2+x2;
+      double Bl = m2*x+m2*x2-x2; double Bh = m2*x-m2*x2+x2;
+      double Cl = x - 2.0*x1; double Ch = x + 2.0*x1;
+
+      bool got_it = false;
+      //Vec2 selected_coord = {0.0, 0.0};
+      double row = -15.0; double col = -15.0;
+      double max_row = 15.0; double max_col = 15.0;
+      while(got_it == false){
+        if(y > Al + col*dAx + row*dAy && y <= Ah + col*dAx + row*dAy &&
+           y > Bl + col*dBx + row*dBy && y <= Bh + col*dBx + row*dBy &&
+           y > Cl + col*dC + row*dC && y <= Ch + col*dC + row*dC){
+          got_it = true;
+          test_grid_coord.x = col; test_grid_coord.y = row;
+        }
+        else{
+          col += 1.0;
+          if(col > max_col){
+            row += 1.0;
+            col = -15.0;
+            if(row > max_row){
+              std::cout << "Failed to find cell." << std::endl;
+              break;
+            }
+          }
+        }
+      }
+      std::cout << test_grid_coord << std::endl;
       std::cout << height_mousepos << std::endl;
       std::cout << test_coords << std::endl;
       if (test_grid_coord == test_coords){
@@ -200,6 +225,6 @@ void Gamemaster::get_clicked(Vec2 mousepos){
       }
       //old_it = it;
     }
-  }*/
+  }
 
 }

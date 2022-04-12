@@ -115,5 +115,10 @@ std::ostream& operator<<(std::ostream& os, const Matrix22& m)
 }
 
 bool comp_coord(Vec2 v1, Vec2 v2){
-  return v1 > v2;
+  if(v1.x < v2.x || v1.y < v2.y){
+    return true;
+  }
+  else{
+    return false;
+  }
 }
