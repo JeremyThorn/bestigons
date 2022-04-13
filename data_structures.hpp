@@ -34,6 +34,7 @@ struct Cell_data {
   SDL_Renderer* renderer;
   SDL_Texture* floor_texture;
   SDL_Texture* pillar_texture;
+  SDL_Texture* selector_texture;  
   Floor_type floor_type;
   Damage_type damage_type;
 };

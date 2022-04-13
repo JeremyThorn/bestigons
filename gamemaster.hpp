@@ -3,7 +3,7 @@
 class Gamemaster{
 public:
   Gamemaster(Gamemaster_data* gamemaster_data);
-  void draw_self(SDL_Texture* texture);
+  void draw_self(SDL_Texture* texture, SDL_Texture* selector_texture);
   void add_cell(Cell* cell);
   void sort_cells();
   void get_clicked(Vec2 mousepos);
@@ -26,4 +26,5 @@ private:
   double scale;
   Matrix22 transform = {0, 0, 0, 0};
   Vec2 offset_n_scale = {0, 0};
+  Cell* selected_cell;
 };

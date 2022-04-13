@@ -78,6 +78,12 @@ int main(int argc, char *argv[]) {
     exit(1);
   }
 
+  SDL_Texture* selector_texture = IMG_LoadTexture(renderer, "selector_texture.png");
+  if(selector_texture==NULL){
+    printf("Dwarfboi texture failed to load");
+    exit(1);
+  }
+
   int areas = 30;
 
   for(int i = 0;i < areas; i++){
@@ -109,6 +115,7 @@ int main(int argc, char *argv[]) {
       test_cell_data.renderer = renderer;
       test_cell_data.floor_texture = grass_texture;
       test_cell_data.pillar_texture = pillar_texture;
+      test_cell_data.selector_texture = selector_texture;
 
       gm->add_cell(new Cell(&test_cell_data));
     }
@@ -132,7 +139,7 @@ int main(int argc, char *argv[]) {
     int x, y;
     SDL_GetMouseState(&x, &y);
     pos.x = (double)x; pos.y = (double)y;
-    gm->draw_self(texture);
+    gm->draw_self(texture, selector_texture);
 
     SDL_RenderPresent(renderer);
     SDL_RenderClear(renderer);

@@ -26,6 +26,7 @@ Gamemaster::Gamemaster(Gamemaster_data* gamemaster_data){
   scale = gamemaster_data->scale;
   transform = gamemaster_data->transform;
   offset_n_scale = gamemaster_data->offset_n_scale;
+  selected_cell = nullptr;
 }
 
 void Gamemaster::add_cell(Cell* cell){
@@ -33,10 +34,16 @@ void Gamemaster::add_cell(Cell* cell){
 }
 
 
-void Gamemaster::draw_self(SDL_Texture* texture){
+void Gamemaster::draw_self(SDL_Texture* texture, SDL_Texture* selector_texture){
   for(Cell* cell : cells){
-    cell->draw_self(texture,scale,xoff,yoff,angle);
+      cell->draw_self(texture, scale, xoff, yoff, angle);
+      if(cell == selected_cell){
+        if (selected_cell != nullptr){
+          selected_cell->draw_selector(selector_texture, scale, xoff, yoff, angle);
+        }
+      }
   }
+
 }
 
 void Gamemaster::sort_cells(){
@@ -176,7 +183,7 @@ void Gamemaster::get_clicked(Vec2 mousepos){
     std::cout << coord << std::endl;
   }
   //auto old_it = cells.begin();
-  Cell* selected_cell;
+  //Cell* selected_cell;
   for(Vec2 coord : line){
 
     const auto it = find_if(cells.begin(), cells.end(), [coord](const Cell* cell) {return cell->return_coords() == coord;});

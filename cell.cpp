@@ -15,6 +15,7 @@
 #include "gamemaster.hpp"
 
 void Cell::draw_self(SDL_Texture* texture, double rad, double XOFF, double YOFF, double angle){
+
   Vec2 new_coord = transform*(coord)+offset_n_scale;
 
   double angle_60 = angle;
@@ -31,16 +32,11 @@ void Cell::draw_self(SDL_Texture* texture, double rad, double XOFF, double YOFF,
     }
   }
 
-
   SDL_Rect hex_rect;
-  //hex_rect.x = new_coord.x+XOFF - rad;
-  //hex_rect.y = new_coord.y+YOFF-height - rad*sqrt(3)/2;
   hex_rect.x = new_coord.x -rad;
   hex_rect.y = new_coord.y-height*rad/50 - rad*sqrt(3)/2;
   hex_rect.w = 2*rad;
   hex_rect.h = 2*rad*sqrt(3)/2;
-
-
 
   double cosine_boy = std::max(cos(angle_60),std::max(cos(angle_60+M_PI/3),cos(angle_60-M_PI/3)));
   double sinny_boy = sqrt(1-cosine_boy*cosine_boy);
@@ -68,13 +64,50 @@ void Cell::draw_self(SDL_Texture* texture, double rad, double XOFF, double YOFF,
   SDL_RenderCopyEx(renderer,pillar_texture,NULL,&pillar_rect_r,0,NULL,SDL_FLIP_HORIZONTAL);
   SDL_RenderCopyEx(renderer,floor_texture,NULL,&hex_rect,360*angle/(M_PI*2),NULL,SDL_FLIP_NONE);
   SDL_SetRenderTarget(renderer,NULL);
-  SDL_RenderDrawPoint(renderer,hex_rect.x,hex_rect.y);
+  //SDL_RenderDrawPoint(renderer,hex_rect.x,hex_rect.y);
   //SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-  SDL_RenderDrawPoint(renderer,hex_rect.x+0.5*hex_rect.w,hex_rect.y+0.5*hex_rect.h/2.5);
+  //SDL_RenderDrawPoint(renderer,hex_rect.x+0.5*hex_rect.w,hex_rect.y+0.5*hex_rect.h/2.5);
   //SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 
 }
 
+void Cell::draw_selector(SDL_Texture* selector_texture, double rad, double XOFF, double YOFF, double angle){
+  Vec2 new_coord = transform*(coord)+offset_n_scale;
+
+  double angle_60 = angle;
+  bool is_in_range = false;
+  while(!is_in_range){
+    if(angle_60 > M_PI/3){
+      angle_60 = angle_60 - M_PI/3;
+    }
+    else if(angle_60 < 0){
+      angle_60 = angle_60 + M_PI/3;
+    }
+    else{
+      is_in_range=true;
+    }
+  }
+
+
+  SDL_Rect selector_rect;
+  double selector_scale_factor = 2.4;
+  selector_rect.x = new_coord.x - selector_scale_factor/2.0*rad;
+  selector_rect.y = new_coord.y-height*rad/50 - selector_scale_factor/2.0*rad*sqrt(3)/2;
+  selector_rect.w = selector_scale_factor*rad;
+  selector_rect.h = selector_scale_factor*rad*sqrt(3)/2;
+
+  //std::cout << 360*angle/(M_PI*2) << std::endl;
+  SDL_SetRenderTarget(renderer,selector_texture);
+
+  SDL_RenderCopyEx(renderer,selector_texture,NULL,&selector_rect,360*angle/(M_PI*2),NULL,SDL_FLIP_NONE);
+
+  SDL_SetRenderTarget(renderer,NULL);
+  //SDL_RenderDrawPoint(renderer,hex_rect.x,hex_rect.y);
+  //SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+  //SDL_RenderDrawPoint(renderer,hex_rect.x+0.5*hex_rect.w,hex_rect.y+0.5*hex_rect.h/2.5);
+  //SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+
+}
 
 Cell::Cell(Cell_data* cell_data){
   coord = cell_data->coord;
