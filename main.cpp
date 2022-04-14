@@ -128,19 +128,28 @@ int main(int argc, char *argv[]) {
 
   //TEST AREA ENDS HERE
 
-
+  SDL_Texture *texture  = SDL_CreateTexture(renderer,SDL_PIXELFORMAT_ARGB8888,SDL_TEXTUREACCESS_TARGET,WIDTH,HEIGHT);
   while(1) {
-    SDL_Texture *texture  = SDL_CreateTexture(renderer,SDL_PIXELFORMAT_ARGB8888,SDL_TEXTUREACCESS_TARGET,WIDTH,HEIGHT);
+
     int x, y;
     SDL_GetMouseState(&x, &y);
     pos.x = (double)x; pos.y = (double)y;
     gm->draw_self(texture, selector_texture);
 
-    SDL_RenderCopy(renderer,texture,NULL,NULL);
+    SDL_Rect test;
+    test.x=0;
+    test.y=0;
+    test.w=WIDTH;
+    test.h=HEIGHT;
+    SDL_RenderCopy(renderer,texture,&test,&test);
 
     SDL_RenderPresent(renderer);
+
+
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+    SDL_SetRenderTarget(renderer,texture);
     SDL_RenderClear(renderer);
-    SDL_DestroyTexture(texture);
+    SDL_SetRenderTarget(renderer,NULL);
 
     if(panning){
       Vec2 diff;
@@ -193,6 +202,7 @@ int main(int argc, char *argv[]) {
         gm->zoom(pow(1.1,event.wheel.y),pos);
       }
     }
+
   }
   SDL_DestroyWindow(window);
 
