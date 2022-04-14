@@ -39,7 +39,7 @@ void Gamemaster::draw_self(SDL_Texture* texture, SDL_Texture* selector_texture){
     cell->draw_self(texture, scale, xoff, yoff, angle);
     if(cell == selected_cell){
       if (selected_cell != nullptr){
-        selected_cell->draw_selector(selector_texture, scale, xoff, yoff, angle);
+        selected_cell->draw_selector(texture,selector_texture, scale, xoff, yoff, angle);
       }
     }
   }

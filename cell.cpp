@@ -71,7 +71,7 @@ void Cell::draw_self(SDL_Texture* texture, double rad, double XOFF, double YOFF,
 
 }
 
-void Cell::draw_selector(SDL_Texture* selector_texture, double rad, double XOFF, double YOFF, double angle){
+void Cell::draw_selector(SDL_Texture* texture,SDL_Texture* selector_texture, double rad, double XOFF, double YOFF, double angle){
   Vec2 new_coord = transform*(coord)+offset_n_scale;
 
   double angle_60 = angle;
@@ -97,7 +97,7 @@ void Cell::draw_selector(SDL_Texture* selector_texture, double rad, double XOFF,
   selector_rect.h = selector_scale_factor*rad*sqrt(3)/2;
 
   //std::cout << 360*angle/(M_PI*2) << std::endl;
-  SDL_SetRenderTarget(renderer,selector_texture);
+  SDL_SetRenderTarget(renderer,texture);
 
   SDL_RenderCopyEx(renderer,selector_texture,NULL,&selector_rect,360*angle/(M_PI*2),NULL,SDL_FLIP_NONE);
 

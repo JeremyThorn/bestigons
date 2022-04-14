@@ -18,7 +18,7 @@ public:
   void set_liquid(Liquid liquid);
 
   void draw_self(SDL_Texture* texture, double rad, double XOFF, double YOFF, double angle);
-  void draw_selector(SDL_Texture* selector_texture, double rad, double XOFF, double YOFF, double angle);
+  void draw_selector(SDL_Texture* texture,SDL_Texture* selector_texture, double rad, double XOFF, double YOFF, double angle);
 
   void get_real_height(double* y);
 

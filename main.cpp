@@ -130,11 +130,13 @@ int main(int argc, char *argv[]) {
 
 
   while(1) {
-    SDL_Texture *texture  = SDL_CreateTexture(renderer,SDL_PIXELFORMAT_ARGB8888,SDL_TEXTUREACCESS_STREAMING,WIDTH,HEIGHT);
+    SDL_Texture *texture  = SDL_CreateTexture(renderer,SDL_PIXELFORMAT_ARGB8888,SDL_TEXTUREACCESS_TARGET,WIDTH,HEIGHT);
     int x, y;
     SDL_GetMouseState(&x, &y);
     pos.x = (double)x; pos.y = (double)y;
     gm->draw_self(texture, selector_texture);
+
+    SDL_RenderCopy(renderer,texture,NULL,NULL);
 
     SDL_RenderPresent(renderer);
     SDL_RenderClear(renderer);
@@ -149,10 +151,10 @@ int main(int argc, char *argv[]) {
     }
 
     if(SDL_GetKeyboardState(NULL)[SDL_SCANCODE_Q]){
-      gm->rotate(0.01,pos);
+      gm->rotate(0.2,pos);
     }
     if(SDL_GetKeyboardState(NULL)[SDL_SCANCODE_E]){
-      gm->rotate(-0.01,pos);
+      gm->rotate(-0.2,pos);
     }
 
     while(SDL_PollEvent(&event)) {
