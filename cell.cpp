@@ -114,7 +114,7 @@ Cell::Cell(Cell_data* cell_data){
   movement_cost = cell_data->movement_cost;
   damage = cell_data->damage;
   height = cell_data->height;
-  std::cout << height << std::endl;
+  //std::cout << height << std::endl;
   obstacle = cell_data->obstacle;
   liquid = cell_data->liquid;
   renderer = cell_data->renderer;
@@ -131,7 +131,7 @@ void Cell::get_coords(Vec2* coords){
 }
 
 void Cell::get_height(double* out_height){
-  std::cout << height << std::endl;
+  //std::cout << height << std::endl;
   *out_height = height;
 }
 

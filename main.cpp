@@ -131,11 +131,6 @@ int main(int argc, char *argv[]) {
 
   while(1) {
     SDL_Texture *texture  = SDL_CreateTexture(renderer,SDL_PIXELFORMAT_ARGB8888,SDL_TEXTUREACCESS_STREAMING,WIDTH,HEIGHT);
-
-
-
-
-
     int x, y;
     SDL_GetMouseState(&x, &y);
     pos.x = (double)x; pos.y = (double)y;

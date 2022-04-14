@@ -11,6 +11,7 @@ public:
   void set_transform(Matrix22 in_transform);
   void give_transform();
   void give_offset_n_scale();
+  void give_trans_n_offset_n_scale();
   void zoom(double zoom,Vec2 zoom_vec);
   void set_offset(Vec2 offset);
   void rotate(double angle, Vec2 rot_p);

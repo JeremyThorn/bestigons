@@ -13,6 +13,7 @@ struct Matrix22{
 };
 
 Matrix22 invert(Matrix22 m);
+double dot(Vec2 v1, Vec2 v2);
 
 Vec2 operator*(const Matrix22& m, const Vec2& v);
 Matrix22 operator*(const Matrix22& m, const double& d);

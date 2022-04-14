@@ -36,14 +36,13 @@ void Gamemaster::add_cell(Cell* cell){
 
 void Gamemaster::draw_self(SDL_Texture* texture, SDL_Texture* selector_texture){
   for(Cell* cell : cells){
-      cell->draw_self(texture, scale, xoff, yoff, angle);
-      if(cell == selected_cell){
-        if (selected_cell != nullptr){
-          selected_cell->draw_selector(selector_texture, scale, xoff, yoff, angle);
-        }
+    cell->draw_self(texture, scale, xoff, yoff, angle);
+    if(cell == selected_cell){
+      if (selected_cell != nullptr){
+        selected_cell->draw_selector(selector_texture, scale, xoff, yoff, angle);
       }
+    }
   }
-
 }
 
 void Gamemaster::sort_cells(){
@@ -77,13 +76,19 @@ void Gamemaster::give_offset_n_scale(){
   }
 }
 
+void Gamemaster::give_trans_n_offset_n_scale(){
+  for(Cell* cell : cells){
+    cell->set_transform(transform);
+    cell->set_offset_n_scale(offset_n_scale);
+  }
+}
+
 
 void Gamemaster::zoom(double in_zoom, Vec2 zoom_vec){
   transform = transform*in_zoom;
   offset_n_scale = in_zoom*offset_n_scale + (-in_zoom+1)*zoom_vec;
   scale = scale*in_zoom;
-  give_transform();
-  give_offset_n_scale();
+  give_trans_n_offset_n_scale();
   sort_cells();
 }
 
@@ -105,8 +110,7 @@ void Gamemaster::rotate(double in_angle,Vec2 rot_p){
   Matrix22 rot_mat = {cos(-in_angle), sin(-in_angle), -sin(-in_angle), cos(-in_angle)};
   transform = rot_mat*transform;
   offset_n_scale = rot_mat*offset_n_scale - rot_mat*rot_p + rot_p;
-  give_transform();
-  give_offset_n_scale();
+  give_trans_n_offset_n_scale();
   sort_cells();
 }
 
@@ -124,14 +128,10 @@ void Gamemaster::get_clicked(Vec2 mousepos){
   double dBx = -2.0*(m2*x2-x2);
   double dBy = (m2*x2-x2);
   double dC = -2.0*x1;
-  //These two lines are to rescale sp that we a relative to the center of the
-  //hex, rather than the top left hand corner (where the rect cood is).
-  //mousepos.x -= scale;
-  //mousepos.y -= scale*sqrt(3)/2;
-  //Transform to grid space.
-  Vec2 grid_coord = invert(transform)*(mousepos - offset_n_scale);
-  std::cout << grid_coord << std::endl;
-  double x = grid_coord.x; double y = grid_coord.y;
+  Vec2 down_step_screen_space = {0, scale*sqrt(3)};
+  Vec2 down_step_grid_space = invert(transform)*(down_step_screen_space);
+  std::cout << down_step_grid_space << std::endl;
+  double x = down_step_grid_space.x; double y = down_step_grid_space.y;
   double Al = m1*x+m1*x2-x2; double Ah = m1*x-m1*x2+x2;
   double Bl = m2*x+m2*x2-x2; double Bh = m2*x-m2*x2+x2;
   double Cl = x - 2.0*x1; double Ch = x + 2.0*x1;
@@ -145,6 +145,41 @@ void Gamemaster::get_clicked(Vec2 mousepos){
        y > Bl + col*dBx + row*dBy && y <= Bh + col*dBx + row*dBy &&
        y > Cl + col*dC + row*dC && y <= Ch + col*dC + row*dC){
       got_it = true;
+      down_step_grid_space.x = col; down_step_grid_space.y = -row;
+    }
+    else{
+      col += 1.0;
+      if(col > max_col){
+        row += 1.0;
+        col = -15.0;
+        if(row > max_row){
+          //std::cout << "Failed to find cell." << std::endl;
+          break;
+        }
+      }
+    }
+  }
+  //These two lines are to rescale sp that we a relative to the center of the
+  //hex, rather than the top left hand corner (where the rect cood is).
+  //mousepos.x -= scale;
+  //mousepos.y -= scale*sqrt(3)/2;
+  //Transform to grid space.
+  Vec2 grid_coord = invert(transform)*(mousepos - offset_n_scale);
+  //std::cout << grid_coord << std::endl;
+   x = grid_coord.x;  y = grid_coord.y;
+   Al = m1*x+m1*x2-x2;  Ah = m1*x-m1*x2+x2;
+   Bl = m2*x+m2*x2-x2;  Bh = m2*x-m2*x2+x2;
+   Cl = x - 2.0*x1;  Ch = x + 2.0*x1;
+
+   got_it = false;
+  //Vec2 selected_coord = {0.0, 0.0};
+   row = -15.0;  col = -15.0;
+   max_row = 15.0;  max_col = 15.0;
+  while(got_it == false){
+    if(y > Al + col*dAx + row*dAy && y <= Ah + col*dAx + row*dAy &&
+       y > Bl + col*dBx + row*dBy && y <= Bh + col*dBx + row*dBy &&
+       y > Cl + col*dC + row*dC && y <= Ch + col*dC + row*dC){
+      got_it = true;
       grid_coord.x = col; grid_coord.y = -row;
     }
     else{
@@ -153,7 +188,7 @@ void Gamemaster::get_clicked(Vec2 mousepos){
         row += 1.0;
         col = -15.0;
         if(row > max_row){
-          std::cout << "Failed to find cell." << std::endl;
+          //std::cout << "Failed to find cell." << std::endl;
           break;
         }
       }
@@ -169,19 +204,22 @@ void Gamemaster::get_clicked(Vec2 mousepos){
   Vec2 right_offset = {-1, 0};
   std::vector<Vec2> line;
   for(int i = 3; i >= -3; i--){
-    line.push_back(grid_coord+(double)i*step_down_line);
-    line.push_back(grid_coord+(double)i*step_down_line + left_offset);
-    line.push_back(grid_coord+(double)i*step_down_line + right_offset);
+    line.push_back(grid_coord+(double)i*down_step_grid_space);
+    line.push_back(grid_coord+(double)i*down_step_grid_space + left_offset);
+    line.push_back(grid_coord+(double)i*down_step_grid_space + right_offset);
   }
-  std::cout << std::endl;
-  for(Vec2 coord : line){
-    std::cout << coord << std::endl;
-  }
-  std::sort(line.begin(),line.end());
-  std::cout << std::endl;
-  for(Vec2 coord : line){
-    std::cout << coord << std::endl;
-  }
+  //std::cout << std::endl;
+  //for(Vec2 coord : line){
+  //  std::cout << coord << std::endl;
+  //}
+  std::sort(line.begin(),line.end(), [down_step_grid_space](const Vec2& v1, const Vec2& v2) -> bool
+    {
+        return dot(v1, down_step_grid_space) > dot(v2, down_step_grid_space);
+    });//, comp_cell_axis(down_step_grid_space));
+  //std::cout << std::endl;
+  //for(Vec2 coord : line){
+  //  std::cout << coord << std::endl;
+  //}
   //auto old_it = cells.begin();
   //Cell* selected_cell;
   for(Vec2 coord : line){
@@ -190,24 +228,24 @@ void Gamemaster::get_clicked(Vec2 mousepos){
 
     if (it != cells.end())
     {
-      std::cout << std::endl;
+      //std::cout << std::endl;
       Vec2 test_coords;
       double test_height;
       (*it)->get_coords(&test_coords);
       (*it)->get_height(&test_height);
-      std::cout << test_height << std::endl;
+      //std::cout << test_height << std::endl;
       Vec2 height_mousepos = {mousepos.x, mousepos.y+test_height*scale/50};
       Vec2 test_grid_coord = invert(transform)*(height_mousepos - offset_n_scale);
 
-      double x = test_grid_coord.x; double y = test_grid_coord.y;
-      double Al = m1*x+m1*x2-x2; double Ah = m1*x-m1*x2+x2;
-      double Bl = m2*x+m2*x2-x2; double Bh = m2*x-m2*x2+x2;
-      double Cl = x - 2.0*x1; double Ch = x + 2.0*x1;
+      x = test_grid_coord.x; y = test_grid_coord.y;
+      Al = m1*x+m1*x2-x2; Ah = m1*x-m1*x2+x2;
+      Bl = m2*x+m2*x2-x2; Bh = m2*x-m2*x2+x2;
+      Cl = x - 2.0*x1; Ch = x + 2.0*x1;
 
-      bool got_it = false;
+      got_it = false;
       //Vec2 selected_coord = {0.0, 0.0};
-      double row = -15.0; double col = -15.0;
-      double max_row = 15.0; double max_col = 15.0;
+      row = -15.0; col = -15.0;
+      max_row = 15.0; max_col = 15.0;
       while(got_it == false){
         if(y > Al + col*dAx + row*dAy && y <= Ah + col*dAx + row*dAy &&
            y > Bl + col*dBx + row*dBy && y <= Bh + col*dBx + row*dBy &&
@@ -221,16 +259,18 @@ void Gamemaster::get_clicked(Vec2 mousepos){
             row += 1.0;
             col = -15.0;
             if(row > max_row){
-              std::cout << "Failed to find cell." << std::endl;
+              //std::cout << "Failed to find cell." << std::endl;
+              selected_cell = nullptr;
               break;
             }
           }
         }
       }
-      std::cout << test_grid_coord << std::endl;
-      std::cout << height_mousepos << std::endl;
-      std::cout << test_coords << std::endl;
+      //std::cout << test_grid_coord << std::endl;
+      //std::cout << height_mousepos << std::endl;
+      //std::cout << test_coords << std::endl;
       if (test_grid_coord == test_coords){
+        std::cout << test_coords << std::endl;
         selected_cell = (*it);
         break;
       }
