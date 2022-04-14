@@ -183,7 +183,6 @@ void Gamemaster::get_clicked(Vec2 mousepos){
   round_to_cell(&down_step_grid_space);
   round_to_cell(&right_step_grid_space);
   round_to_cell(&left_step_grid_space);
-  std::cout << down_step_grid_space << " " << right_step_grid_space << " " << left_step_grid_space << std::endl;
   /*
   std::cout << down_step_grid_space << std::endl;
   double x = down_step_grid_space.x; double y = down_step_grid_space.y;
@@ -260,27 +259,54 @@ void Gamemaster::get_clicked(Vec2 mousepos){
   //grid_coord.x=round(grid_coord.x); grid_coord.y=round(grid_coord.y);
 
   //std::cout << grid_coord << std::endl;
-  Vec2 step_down_line = {-1, 1};
-  Vec2 left_offset = {0, 1};
-  Vec2 right_offset = {-1, 0};
+  //Vec2 step_down_line = {-1, 1};
+  //Vec2 left_offset = {0, 1};
+  //Vec2 right_offset = {-1, 0};
+  std::cout << grid_coord << " " <<down_step_grid_space << " " << right_step_grid_space << " " << left_step_grid_space << std::endl;
   std::vector<Vec2> line;
   for(int i = 3; i >= -3; i--){
     line.push_back(grid_coord+(double)i*down_step_grid_space);
-    line.push_back(grid_coord+(double)i*down_step_grid_space + left_step_screen_space);
-    line.push_back(grid_coord+(double)i*down_step_grid_space + right_step_screen_space);
+    if (down_step_grid_space != left_step_grid_space){
+      line.push_back(grid_coord+(double)i*down_step_grid_space + left_step_grid_space);
+    }
+    if (down_step_grid_space != right_step_grid_space){
+      line.push_back(grid_coord+(double)i*down_step_grid_space + right_step_grid_space);
+    }
   }
   //std::cout << std::endl;
   //for(Vec2 coord : line){
   //  std::cout << coord << std::endl;
   //}
-  std::sort(line.begin(),line.end(), [down_step_grid_space](const Vec2& v1, const Vec2& v2) -> bool
+  std::cout << "before" << std::endl;
+  for(Vec2 coord : line){
+    std::cout << coord << std::endl;
+  }
+  std::sort(line.begin(),line.end(), [down_step_grid_space, right_step_grid_space, left_step_grid_space](const Vec2& v1, const Vec2& v2) -> bool
     {
-        return dot(v1, down_step_grid_space) > dot(v2, down_step_grid_space);
+        double comp1 = dot(v1, down_step_grid_space) - dot(v2, down_step_grid_space);
+        if (comp1 == 0.0){
+          double comp2 = dot(v1, right_step_grid_space) - dot(v2, right_step_grid_space);
+          if (comp2 == 0.0){
+            double comp3 = dot(v1, left_step_grid_space) - dot(v2, left_step_grid_space);
+            if (comp3 == 0.0){
+              return comp3 > 0;
+            }
+            else{
+              return v1.x + v1.y < v2.x + v2.y;
+            }
+          }
+          else{
+            return comp2 > 0;
+          }
+        }
+        else{
+          return comp1 > 0;
+        }
     });//, comp_cell_axis(down_step_grid_space));
-  //std::cout << std::endl;
-  //for(Vec2 coord : line){
-  //  std::cout << coord << std::endl;
-  //}
+  std::cout << "after" << std::endl;
+  for(Vec2 coord : line){
+    std::cout << coord << std::endl;
+  }
   //auto old_it = cells.begin();
   //Cell* selected_cell;
   for(Vec2 coord : line){
@@ -334,7 +360,7 @@ void Gamemaster::get_clicked(Vec2 mousepos){
       //std::cout << height_mousepos << std::endl;
       //std::cout << test_coords << std::endl;
       if (test_grid_coord == test_coords){
-        std::cout << test_coords << std::endl;
+        std::cout << "selected coord: " <<test_coords << std::endl;
         selected_cell = (*it);
         break;
       }
