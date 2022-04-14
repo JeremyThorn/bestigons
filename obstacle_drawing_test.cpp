@@ -39,30 +39,49 @@ int main(int argc, char *argv[]) {
   renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE);
 
   std::vector<SDL_Texture*> model;
-  std::vector<SDL_Rect*> model_rects;
+  std::vector<SDL_Rect> model_rects;
 
+  int dx = 40;
+  int rad = 50;
+
+  int c = 0;
   for (const auto& dirEntry : std::filesystem::recursive_directory_iterator("test_model")){
-    //std::cout << dirEntry << std::endl;
-    SDL_Texture* subtexture = IMG_LoadTexture(renderer, dirEntry);
-    SDL_Rect* subrect;
+    std::cout << dirEntry.path().c_str() << std::endl;
+    SDL_Texture* subtexture = IMG_LoadTexture(renderer, dirEntry.path().c_str());
     if(subtexture==NULL){
       printf("Dwarfboi texture failed to load");
       exit(1);
     }
     model.push_back(subtexture);
+    SDL_Rect subrect;
+    subrect.x = 200;
+    subrect.y = 200+c*dx;
+    subrect.w = 2*rad;
+    subrect.h = 2*rad;
+    c+=1;
+    model_rects.push_back(subrect);
   }
+
+  //SDL_Rect subrect;
+  //subrect.x = 200+c*dx;
+  //subrect.y = 200;
+  //subrect.w = 2*rad;
+  //subrect.h = 2*rad;
 
   SDL_Event event;
 
   while(1) {
+    SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
     SDL_Texture *texture  = SDL_CreateTexture(renderer,SDL_PIXELFORMAT_ARGB8888,SDL_TEXTUREACCESS_STREAMING,WIDTH,HEIGHT);
-
+    c=0;
     for(SDL_Texture* subtexture : model){
       SDL_SetRenderTarget(renderer,texture);
-      SDL_RenderCopy(renderer,subtexture,NULL,&pillar_rect_l);
+
+      SDL_RenderCopy(renderer,subtexture,NULL,&(model_rects[c]));
       //SDL_RenderCopyEx(renderer,pillar_texture,NULL,&pillar_rect_r,0,NULL,SDL_FLIP_HORIZONTAL);
       //SDL_RenderCopyEx(renderer,floor_texture,NULL,&hex_rect,360*angle/(M_PI*2),NULL,SDL_FLIP_NONE);
       SDL_SetRenderTarget(renderer,NULL);
+      c+= 1;
     }
 
     SDL_RenderPresent(renderer);
