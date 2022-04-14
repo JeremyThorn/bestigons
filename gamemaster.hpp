@@ -7,6 +7,7 @@ public:
   void add_cell(Cell* cell);
   void sort_cells();
   void get_clicked(Vec2 mousepos);
+  void round_to_cell(Vec2* gridpos);
   void get_transform(Matrix22* out_transform);
   void set_transform(Matrix22 in_transform);
   void give_transform();
