@@ -160,10 +160,10 @@ int main(int argc, char *argv[]) {
     }
 
     if(SDL_GetKeyboardState(NULL)[SDL_SCANCODE_Q]){
-      gm->rotate(0.2,pos);
+      gm->rotate(0.01,pos);
     }
     if(SDL_GetKeyboardState(NULL)[SDL_SCANCODE_E]){
-      gm->rotate(-0.2,pos);
+      gm->rotate(-0.01,pos);
     }
 
     while(SDL_PollEvent(&event)) {
