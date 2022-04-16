@@ -10,6 +10,8 @@ public:
   void set_damage(double damage);
 
   void set_height(double height);
+  
+  void chng_height(double c_height);
 
   void add_item(Item* item);
   void remove_item(Item* item);

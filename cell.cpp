@@ -135,6 +135,10 @@ void Cell::get_height(double* out_height){
   *out_height = height;
 }
 
+void Cell::chng_height(double c_height){
+  height = height+c_height;
+}
+
 
 void Cell::set_height(double in_height){
   height = in_height;

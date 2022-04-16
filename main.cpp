@@ -63,27 +63,12 @@ int main(int argc, char *argv[]) {
   Matrix22 rotator = {cos(M_PI/4), sin(M_PI/4), -sin(M_PI/4)/sqrt(3), cos(M_PI/4)/sqrt(3)};
   gd.transform = rotator*(3*gd.scale*sqrt(1.0/2.0));
   gd.offset_n_scale = {gd.WIDTH/2 - gd.scale, gd.HEIGHT/2 - gd.scale*sqrt(3)/2};
+  gd.grid_size = 50;
 
   Gamemaster* gm = new Gamemaster(&gd);
 
-  SDL_Texture* grass_texture = IMG_LoadTexture(renderer, "tile_c.png");
-  if(grass_texture==NULL){
-    printf("Dwarfboi texture failed to load");
-    exit(1);
-  }
 
-  SDL_Texture* pillar_texture = IMG_LoadTexture(renderer, "pillar.png");
-  if(pillar_texture==NULL){
-    printf("Dwarfboi texture failed to load");
-    exit(1);
-  }
-
-  SDL_Texture* selector_texture = IMG_LoadTexture(renderer, "selector_texture.png");
-  if(selector_texture==NULL){
-    printf("Dwarfboi texture failed to load");
-    exit(1);
-  }
-
+  /*
   int areas = 30;
 
   for(int i = 0;i < areas; i++){
@@ -120,10 +105,13 @@ int main(int argc, char *argv[]) {
       gm->add_cell(new Cell(&test_cell_data));
     }
   }
+  */
 
   gm->give_transform();
   gm->give_offset_n_scale();
   gm->sort_cells();
+
+
 
 
   //TEST AREA ENDS HERE
@@ -134,7 +122,7 @@ int main(int argc, char *argv[]) {
     int x, y;
     SDL_GetMouseState(&x, &y);
     pos.x = (double)x; pos.y = (double)y;
-    gm->draw_self(texture, selector_texture);
+    gm->draw_self(texture);
 
     SDL_Rect test;
     test.x=0;
@@ -160,10 +148,10 @@ int main(int argc, char *argv[]) {
     }
 
     if(SDL_GetKeyboardState(NULL)[SDL_SCANCODE_Q]){
-      gm->rotate(0.01,pos);
+      gm->rotate(0.003,pos);
     }
     if(SDL_GetKeyboardState(NULL)[SDL_SCANCODE_E]){
-      gm->rotate(-0.01,pos);
+      gm->rotate(-0.003,pos);
     }
 
     while(SDL_PollEvent(&event)) {
@@ -176,6 +164,10 @@ int main(int argc, char *argv[]) {
         if(SDL_GetKeyboardState(NULL)[SDL_SCANCODE_SPACE]){
           gm->test_explosion();
         }
+        if(SDL_GetKeyboardState(NULL)[SDL_SCANCODE_P]){
+          gm->perlin_noise(100,6,0.5);
+        }
+
       }
       if(event.type == SDL_MOUSEBUTTONDOWN){
         if(event.button.button == SDL_BUTTON_LEFT){

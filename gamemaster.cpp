@@ -7,6 +7,8 @@
 #include <string>
 #include <time.h>
 #include <iostream>
+#include <random>
+#include <functional>
 #include <vector>
 #include <algorithm>
 #include <signal.h>
@@ -27,6 +29,60 @@ Gamemaster::Gamemaster(Gamemaster_data* gamemaster_data){
   transform = gamemaster_data->transform;
   offset_n_scale = gamemaster_data->offset_n_scale;
   selected_cell = nullptr;
+  grid_size = gamemaster_data->grid_size;
+
+  grass_texture = IMG_LoadTexture(renderer, "tile_c.png");
+  if(grass_texture==NULL){
+    printf("Dwarfboi texture failed to load");
+    exit(1);
+  }
+
+  pillar_texture = IMG_LoadTexture(renderer, "pillar.png");
+  if(pillar_texture==NULL){
+    printf("Dwarfboi texture failed to load");
+    exit(1);
+  }
+
+  selector_texture = IMG_LoadTexture(renderer, "selector_texture.png");
+  if(selector_texture==NULL){
+    printf("Dwarfboi texture failed to load");
+    exit(1);
+  }
+
+  for(int i = 0;i < grid_size; i++){
+    for(int j = 0;j < grid_size; j++){
+      Cell_data test_cell_data;
+      test_cell_data.coord.x=(int)(i-grid_size/2);
+      test_cell_data.coord.y=(int)(j-grid_size/2);
+      test_cell_data.movement_cost = 0;
+      test_cell_data.damage = 0;
+      test_cell_data.height = -1;
+      if( i == 15 && j == 15){
+        test_cell_data.height = 20;
+      }
+      if( i ==17 && j == 17){
+        test_cell_data.height = -20;
+      }
+      if(i == 13 && j == 13){
+        test_cell_data.height = -40;
+      }
+      if(i+1 == 13 || i-1 == 13 || i == 13){
+        if(j+1 == 13 || j-1 == 13 || j == 13)
+          if((i-13)*(j-13)<=0 && (j != 13 || i != 13)){
+            test_cell_data.height = -20;
+          }
+      }
+      if(i == 19 && j == 19){
+        test_cell_data.height = -100;
+      }
+      test_cell_data.renderer = renderer;
+      test_cell_data.floor_texture = grass_texture;
+      test_cell_data.pillar_texture = pillar_texture;
+      test_cell_data.selector_texture = selector_texture;
+
+      add_cell(new Cell(&test_cell_data));
+    }
+  }
 }
 
 void Gamemaster::add_cell(Cell* cell){
@@ -34,7 +90,7 @@ void Gamemaster::add_cell(Cell* cell){
 }
 
 
-void Gamemaster::draw_self(SDL_Texture* texture, SDL_Texture* selector_texture){
+void Gamemaster::draw_self(SDL_Texture* texture){
   for(Cell* cell : cells){
     cell->draw_self(texture, scale, xoff, yoff, angle);
     if(cell == selected_cell){
@@ -186,6 +242,42 @@ void Gamemaster::round_to_cell(Vec2* gridpos){
     }
   }
 }
+
+
+void Gamemaster::perlin_noise(double mag,int lvl,double var){
+
+  std::random_device rd;
+  std::default_random_engine g(rd());
+  std::uniform_real_distribution<double> d(-1,1);
+  auto rando = bind(d,g);
+
+  Cell*** cell_grid = (Cell***)calloc(sizeof(Cell**),grid_size);
+  for(int i = 0; i< grid_size;i++){
+    cell_grid[i] = (Cell**)calloc(sizeof(Cell*),grid_size);
+    for(int j = 0;j<grid_size;j++){
+      Vec2 coord = {(int)(i-grid_size/2),(int)(j-grid_size/2)};
+      const auto it = find_if(cells.begin(), cells.end(), [coord](const Cell* cell) {return cell->return_coords() == coord;});
+      cell_grid[i][j] = (*it);
+      cell_grid[i][j]->set_height(0);
+    }
+  }
+
+  for(int l = 1; l<=pow(2,lvl) ; l=l*2){
+    for(int i = 0; i< l;i++){
+      for(int j = 0;j<l;j++){
+        double change = rando()*mag/pow(l,var);
+        for(int n = (int)(i*grid_size/l); n< (int)((i+1)*grid_size/l);n++){
+          for(int m = (int)(j*grid_size/l); m< (int)((j+1)*grid_size/l);m++){
+            cell_grid[n][m]->chng_height(change);
+          }
+        }
+      }
+    }
+  }
+
+
+}
+
 
 void Gamemaster::get_clicked(Vec2 mousepos){
   Vec2 down_step_screen_space = {0.0, scale*sqrt(3.0)};
