@@ -114,6 +114,35 @@ void Gamemaster::rotate(double in_angle,Vec2 rot_p){
   sort_cells();
 }
 
+
+void Gamemaster::test_explosion(){
+  if(selected_cell){
+    double height;
+    selected_cell->get_height(&height);
+    selected_cell->set_height(height-20);
+
+    Vec2 c_coords;
+    selected_cell->get_coords(&c_coords);
+    for(double i=-1;i<=1;i++){
+      for(double j=-1;j<=1;j++){
+        std::cout << i << j << std::endl;
+        if( (i != 0 || j != 0) && i!= j){
+          Vec2 diff = {i,j};
+          Vec2 coord = c_coords + diff;
+          std::cout << coord << std::endl;
+          const auto it = find_if(cells.begin(), cells.end(), [coord](const Cell* cell) {return cell->return_coords() == coord;});
+          if (it != cells.end()){
+            (*it)->get_height(&height);
+            (*it)->set_height(height-10);
+          }
+        }
+      }
+    }
+
+  }
+
+}
+
 void Gamemaster::round_to_cell(Vec2* gridpos){
   double s = sqrt(3.0);
   double l = 1.0/(s*sqrt(3.0/2.0));

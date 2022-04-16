@@ -173,7 +173,9 @@ int main(int argc, char *argv[]) {
         return 0;
       }
       if(event.type == SDL_KEYDOWN){
-
+        if(SDL_GetKeyboardState(NULL)[SDL_SCANCODE_SPACE]){
+          gm->test_explosion();
+        }
       }
       if(event.type == SDL_MOUSEBUTTONDOWN){
         if(event.button.button == SDL_BUTTON_LEFT){

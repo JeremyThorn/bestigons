@@ -17,6 +17,10 @@ public:
   void set_offset(Vec2 offset);
   void rotate(double angle, Vec2 rot_p);
 
+  //Just some test stuff
+  void test_explosion();
+  void perlin_noise();
+
 private:
   std::vector<Cell*> cells;
   SDL_Renderer* renderer;
